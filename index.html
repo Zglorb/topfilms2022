@@ -24,7 +24,7 @@
 					<img class="number" :src="`${n + 1}.png`"/>
 				</div>
 				<div v-for="(user,key) in categories[categoryNb].rankings" class="card-container" @click="show(categoryNb, key, n)" :key="key">
-					<div :class="`card ${!user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
+					<div :class="`card ${user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
 						<img class="background" :src="user[n].background">
 						<div class="card-title" :style="`transform: rotate(${user[n].tilt}deg); font-size: ${fontSize(n, user[n].title)}px`">
 							{{ user[n].title.toUpperCase() }}
