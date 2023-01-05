@@ -21,13 +21,13 @@
 		<div id="bottom">
 			<div v-for="(k, n) in 3" :class="`line position-${position[n]}`" :key="n">
 				<div @click="roll(n)">
-					<img :src="`${n + 1}.png`"/>
+					<img class="number" :src="`${n + 1}.png`"/>
 				</div>
 				<div v-for="(user,key) in categories[categoryNb].rankings" class="card-container" @click="show(categoryNb, key, n)" :key="key">
-					<div :class="`card ${user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
+					<div :class="`card ${!user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
 						<img class="background" :src="user[n].background">
-						<div class="card-title" :style="`transform: rotate(${user[n].tilt}deg);`">
-							{{ user[n].title }}
+						<div class="card-title" :style="`transform: rotate(${user[n].tilt}deg); font-size: ${fontSize(n, user[n].title)}px`">
+							{{ user[n].title.toUpperCase() }}
 						</div>
 					</div>
 				</div>
@@ -245,6 +245,10 @@
 				randomTilt(){
 					return Math.random() * 10 - 5
 				},
+				fontSize(n, text){
+					let estimation = ((390 - (n*50))/text.length)
+					return estimation < 20 ? 20 : estimation
+				},
 				roll(n){
 					let clickedOn = this.position[n]
 					let firstIndex = this.position.findIndex((e) => e == 0);
@@ -296,13 +300,13 @@
 		transition: top 2s ease 0s; 
 	}
 	.position-1{
-		top: 150px;
+		top: 120px;
 		z-index: 2;
 		transition: top 2s ease 0s; 
 	}
 	.position-2{
 		transition: top 2s ease 0s;
-		top: 300px;
+		top: 240px;
 		z-index: 3;
 	}
 	/* .line:nth-of-type(1) {
@@ -314,13 +318,16 @@
 	.hidden {
 		visibility: hidden;
 	}
+	.number {
+		height: 150px;
+	}
 	.card-container {
 		user-select: none;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 335px;
-		height: 100px;
+		width: 350px;
+		height: 110px;
 		cursor: pointer;
 	}
 	.card {
@@ -329,7 +336,7 @@
 		align-items: center;
 		position: relative;
 		/* width: 300px; */
-		height: 125px;
+		height: 100%;
 		margin: 0 10px;
 		border-radius: 35px;
 		padding-left: 5px;
@@ -340,7 +347,7 @@
 	}
 	.card-title {
 		color: white;
-		font-size: 30px;
+		/* font-size: 30px; */
 		font-weight: bold;
 		text-align: center;
 		font-family: trinstam;
