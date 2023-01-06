@@ -22,8 +22,11 @@
 			<div v-for="(k, n) in 3" :class="`line position-${position[n]}`" :key="n">
 				<div @click="roll(n)">
 					<img class="number" :src="`${n + 1}.png`"/>
-				</div>
-				<div v-for="(user,key) in categories[categoryNb].rankings" class="card-container" @click="show(categoryNb, key, n)" :key="key">
+				</div>				
+				<div v-for="(user,key) in categories[categoryNb].rankings" class="card-container" :key="key">
+					<button class="button" @click="show(categoryNb, key, n)">
+						{{ n }}
+					</button>
 					<div :class="`card ${user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
 						<img class="background" :src="user[n].background">
 						<div class="card-title" :style="`transform: rotate(${user[n].tilt}deg); font-size: ${fontSize(n, user[n].title)}px`">
@@ -285,6 +288,12 @@
 	#dropdown{
 		position: relative;
 		bottom: 0;
+	}
+	.button{
+		position: absolute;
+		top: -350px;
+		width: 100px;
+		height: 100px;
 	}
 	.line {
 		position: absolute;
