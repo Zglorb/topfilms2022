@@ -20,14 +20,14 @@
 	<div id="app">
 		<div id="bottom">
 			<div v-for="(k, n) in 3" :class="`line position-${position[n]}`" :key="n">
-				<div @click="roll(n)">
+				<div v-if="categories[categoryNb].rankings[Object.keys(categories[categoryNb].rankings)[0]][n]" @click="roll(n)">
 					<img class="number" :src="`${n + 1}.png`"/>
 				</div>				
 				<div v-for="(user,key) in categories[categoryNb].rankings" class="card-container" :key="key">
-					<button class="button" @click="show(categoryNb, key, n)">
+					<button v-if="user[n]" class="button" @click="show(categoryNb, key, n)">
 						{{ n }}
 					</button>
-					<div :class="`card ${user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
+					<div v-if="user[n]" :class="`card ${user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
 						<img class="background" :src="user[n].background">
 						<div class="card-title" :style="`transform: rotate(${user[n].tilt}deg); font-size: ${fontSize(n, user[n].title)}px`">
 							{{ user[n].title.toUpperCase() }}
@@ -55,183 +55,358 @@
 			categoryNb: 0,
 			rank: 0,
 			position: [0, 1, 2],
-			categories: [{
-				title: "Top 3 Films 2022",
-				rankings: {
-					"Terracid": [{
-						title: "The Matrix",
-						background: "https://posters.movieposterdb.com/20_10/2019/7286456/s_7286456_97fee279.jpg",
-						hidden: true}
-					,
-					{
-						title: "The Matrix Reloaded",
-						background: "https://posters.movieposterdb.com/20_10/1994/110912/s_110912_40e7dce0.jpg",
-						hidden: true}
-					,
-					{
-						title: "The Matrix Revolutions",
-						background: "https://posters.movieposterdb.com/21_09/2021/1160419/s_1160419_da9ea6bb.jpg",
-						hidden: true}]
-					,
-					"Potatoz": [
-						{
-							title: "Jurassic Park",
-							background: "https://posters.movieposterdb.com/12_05/1977/76759/s_76759_7dc4ecb6.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park: The Lost World dsqdsq  dsq d qsd ",
-							background: "https://posters.movieposterdb.com/22_10/2022/9114286/s_black-panther-wakanda-forever-movie-poster_7d7dc251.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park III",
-							background: "https://posters.movieposterdb.com/22_02/2022/1877830/s_1877830_764432ad.jpg",
-							hidden: true
-						}
-					],
-					"Potatoz2": [
-						{
-							title: "Jurassic Park",
-							background: "https://posters.movieposterdb.com/13_11/2013/359950/s_359950_9d8c4f7a.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park: The Lost World dsqdsq  dsq d qsd ",
-							background: "https://posters.movieposterdb.com/14_06/1990/99685/s_99685_3c1fb0a3.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park III",
-							background: "https://posters.movieposterdb.com/22_11/2022/1630029/s_avatar-the-way-of-water-movie-poster_9672cea6.jpg",
-							hidden: true
-						}
-					],
-					"Potatoz3": [
-						{
-							title: "Jurassic Park",
-							background: "https://posters.movieposterdb.com/14_09/2014/816692/s_816692_593eaeff.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park: The Lost World dsqdsq  dsq d qsd ",
-							background: "https://posters.movieposterdb.com/22_05/2020/1745960/s_1745960_cc176006.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park III",
-							background: "https://posters.movieposterdb.com/22_05/2020/1745960/s_1745960_cc176006.jpg",
-							hidden: true
-						}
-					],
-					"Potatoz4": [
-						{
-							title: "Jurassic Park",
-							background: "https://posters.movieposterdb.com/22_07/1988/95016/s_95016_f442d27e.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park: The Lost World dsqdsq  dsq d qsd ",
-							background: "https://posters.movieposterdb.com/15_06/2014/4082744/s_4082744_b759ddc3.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park III",
-							background: "https://posters.movieposterdb.com/05_08/1993/0107290/s_45298_0107290_be4e0db3.jpg",
-							hidden: true
-						}
-					]
-				}
-			},
-			{
-				title: "Top 3 Series 2022",
-				rankings: {
-					"Terracid": [{
-						title: "The Matrix",
-						background: "https://www.impawards.com/2011/posters/war_horse_ver3.jpg",
-						hidden: true}
-					,
-					{
-						title: "The Matrix Reloaded",
-						background: "https://www.impawards.com/2021/posters/med_last_night_in_soho.jpg",
-						hidden: true}
-					,
-					{
-						title: "The Matrix Revolutions",
-						background: "https://www.impawards.com/2010/posters/inception_ver2.jpg",
-						hidden: true}]
-					,
-					"Potatoz": [
-						{
-							title: "Jurassic Park",
-							background: "https://www.impawards.com/2011/posters/hugo_ver2.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park: The Lost World dsqdsq  dsq d qsd ",
-							background: "https://www.impawards.com/2021/posters/med_malignant.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park III",
-							background: "https://www.impawards.com/2011/posters/midnight_in_paris_ver4.jpg",
-							hidden: true
-						}
-					],
-					"Potatoz2": [
-						{
-							title: "Jurassic Park",
-							background: "https://www.impawards.com/2011/posters/mission_impossible_ghost_protocol_ver2.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park: The Lost World dsqdsq  dsq d qsd ",
-							background: "https://www.impawards.com/2021/posters/med_night_house.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park III",
-							background: "https://www.impawards.com/2021/posters/med_antlers_ver2.jpg",
-							hidden: true
-						}
-					],
-					"Potatoz3": [
-						{
-							title: "Jurassic Park",
-							background: "https://www.impawards.com/2011/posters/moneyball_ver2.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park: The Lost World dsqdsq  dsq d qsd ",
-							background: "https://www.impawards.com/2021/posters/med_old_ver2.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park III",
-							background: "https://www.impawards.com/2011/posters/tinker_tailor_soldier_spy_ver2.jpg",
-							hidden: true
-						}
-					],
-					"Potatoz4": [
-						{
-							title: "Jurassic Park",
-							background: "https://www.impawards.com/2011/posters/drive_ver3.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park: The Lost World dsqdsq  dsq d qsd ",
-							background: "https://www.impawards.com/2021/posters/med_old_ver2.jpg",
-							hidden: true}
-						,
-						{
-							title: "Jurassic Park III",
-							background: "https://www.impawards.com/2011/posters/warrior_ver2.jpg",
-							hidden: true
-						}
-					]
-				}
-			},
-		]
+			categories: [
+  {
+    "title": "Top 3 film 2022 ",
+    "rankings": {
+      "Potatoz": [
+        {
+          "title": "The Fabelmans",
+          "background": "https://image.tmdb.org/t/p/w500/xId9zoiv5WPQOuxqykUDrlpmrUz.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Blonde",
+          "background": "https://image.tmdb.org/t/p/w500/jOgbnL5FB30pprEjZaY1E1iPtPM.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Avatar 2",
+          "background": "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+          "hidden": true
+        }
+      ],
+      "Grimkujow": [
+        {
+          "title": "Avatar 2",
+          "background": "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Conspiration du Caire",
+          "background": "https://image.tmdb.org/t/p/w500/uV9vncbbQlwtTSOv9vPVYkbmN4X.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Bardo",
+          "background": "https://image.tmdb.org/t/p/w500/3e6RA0CzFDC0pz5TqiRlbHcsc2n.jpg",
+          "hidden": true
+        }
+      ],
+      "MNKway": [
+        {
+          "title": "Avatar",
+          "background": "https://image.tmdb.org/t/p/w500/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Shin Ultraman",
+          "background": "https://image.tmdb.org/t/p/w500/9bU8K4rdRhM03tAVW0MNXTx5kFQ.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Decision to Leave",
+          "background": "https://www.themoviedb.org/t/p/original/pDpfZtcRQUYgWPbqkfC8qOevXiv.jpg",
+          "hidden": true
+        }
+      ],
+      "Terracid": [
+        {
+          "title": "The Green Knight",
+          "background": "https://image.tmdb.org/t/p/w500/if4hw3Ou5Sav9Em7WWHj66mnywp.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Athena",
+          "background": "https://image.tmdb.org/t/p/w500/s8B0GsFEebd0DW2spykLMxnc1Kn.jpg",
+          "hidden": true
+        },
+        {
+          "title": "The Northman",
+          "background": "https://image.tmdb.org/t/p/w500/aSSJMnHknzKjlZ6zybwD7eyJ4Po.jpg",
+          "hidden": true
+        }
+      ],
+      "happy": [
+        {
+          "title": "blonde",
+          "background": "https://image.tmdb.org/t/p/w500/jOgbnL5FB30pprEjZaY1E1iPtPM.jpg",
+          "hidden": true
+        },
+        {
+          "title": "pinocchio del toro",
+          "background": "https://image.tmdb.org/t/p/w500/vx1u0uwxdlhV2MUzj4VlcMB0N6m.jpg",
+          "hidden": true
+        },
+        {
+          "title": "decision to leave",
+          "background": "https://www.themoviedb.org/t/p/original/pDpfZtcRQUYgWPbqkfC8qOevXiv.jpg",
+          "hidden": true
+        }
+      ]
+    }
+  },
+  {
+    "title": "Flop 3 film 2022 ",
+    "rankings": {
+      "Potatoz": [
+        {
+          "title": "Glass Onion",
+          "background": "https://image.tmdb.org/t/p/w500/vDGr1YdrlfbU9wxTOdpf3zChmv9.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Nope",
+          "background": "https://image.tmdb.org/t/p/w500/AcKVlWaNVVVFQwro3nLXqPljcYA.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Doctor Strange 2",
+          "background": "https://image.tmdb.org/t/p/w500/fwBl3J2aEXru6mrr9Xg8O99Iz2K.jpg",
+          "hidden": true
+        }
+      ],
+      "Grimkujow": [
+        {
+          "title": "En Corps",
+          "background": "https://image.tmdb.org/t/p/w500/wymdTmKl2uyuIWa82qaJgmevyZ1.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Novembre",
+          "background": "https://image.tmdb.org/t/p/w500/muXJAhYO0RWq0F0KWXqEswpNckr.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Armageddon Time",
+          "background": "https://image.tmdb.org/t/p/w500/jCLmDpJYNPfDirkgfzhZXZY6nrm.jpg",
+          "hidden": true
+        }
+      ],
+      "MNKway": [
+        {
+          "title": "Morbius",
+          "background": "https://image.tmdb.org/t/p/w500/6JjfSchsU6daXk2AKX8EEBjO3Fm.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Prey",
+          "background": "https://image.tmdb.org/t/p/w500/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg",
+          "hidden": true
+        },
+        {
+          "title": "X",
+          "background": "https://image.tmdb.org/t/p/w500/woTQx9Q4b8aO13jR9dsj8C9JESy.jpg",
+          "hidden": true
+        }
+      ],
+      "Terracid": [
+        {
+          "title": "Men",
+          "background": "https://image.tmdb.org/t/p/w500/jo1Kv3P3UgDVk7JnUFr2Cl8WWUM.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Nightmare Alley",
+          "background": "https://image.tmdb.org/t/p/w500/tgnZxc8PxbwKFJvlTxew9jpYFZo.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Spencer",
+          "background": "https://image.tmdb.org/t/p/w500/7GcqdBKaMM9BWXWN07BirBMkcBF.jpg",
+          "hidden": true
+        }
+      ],
+      "happy": [
+        {
+          "title": "arthur malédiction",
+          "background": "https://image.tmdb.org/t/p/w500/3Hdjclma1lkMeJDsA7VfpOY4Jrd.jpg",
+          "hidden": true
+        },
+        {
+          "title": "thor",
+          "background": "https://image.tmdb.org/t/p/w500/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg",
+          "hidden": true
+        },
+        {
+          "title": "pinocchio zemeckis",
+          "background": "https://fr.web.img2.acsta.net/pictures/22/08/25/09/39/1782291.jpg",
+          "hidden": true
+        }
+      ]
+    }
+  },
+  {
+    "title": " Top 1 Série 2022 ",
+    "rankings": {
+      "Potatoz": [
+        {
+          "title": "Better Call Saul",
+          "background": "https://flxt.tmsimg.com/assets/p13837077_b_v8_aa.jpg",
+          "hidden": true
+        }
+      ],
+      "Grimkujow": [
+        {
+          "title": "Twin Peaks",
+          "background": "https://m.media-amazon.com/images/M/MV5BMTExNzk2NjcxNTNeQTJeQWpwZ15BbWU4MDcxOTczOTIx._V1_FMjpg_UX1000_.jpg",
+          "hidden": true
+        }
+      ],
+      "MNKway": [
+        {
+          "title": "House of Dragon",
+          "background": "https://m.media-amazon.com/images/M/MV5BZjBiOGIyY2YtOTA3OC00YzY1LThkYjktMGRkYTNhNTExY2I2XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg",
+          "hidden": true
+        }
+      ],
+      "Terracid": [
+        {
+          "title": "House of the Dragon",
+          "background": "https://m.media-amazon.com/images/M/MV5BZjBiOGIyY2YtOTA3OC00YzY1LThkYjktMGRkYTNhNTExY2I2XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg",
+          "hidden": true
+        }
+      ],
+      "happy": [
+        {
+          "title": "pas vu",
+          "background": "",
+          "hidden": true
+        }
+      ]
+    }
+  },
+  {
+    "title": " Top 3 film hors 2022 ",
+    "rankings": {
+      "Potatoz": [
+        {
+          "title": "Paris Texas",
+          "background": "https://image.tmdb.org/t/p/w500/6NuFYT1f1rG0AeIVTJEgsRa7AOi.jpg",
+          "hidden": true
+        },
+        {
+          "title": "L'Armée des ombres",
+          "background": "https://image.tmdb.org/t/p/w500/aqNZWM9bspt8zaDvVRIRiWxRVJ7.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Sailor & Lula",
+          "background": "https://image.tmdb.org/t/p/w500/uLUFI5sJIfWrBUWB2Y1dEuyvvVy.jpg",
+          "hidden": true
+        }
+      ],
+      "Grimkujow": [
+        {
+          "title": "Phantom of the paradise",
+          "background": "https://image.tmdb.org/t/p/w500/AkS1Pg1bUKMzfhItnoMscLY3RJn.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Magnolia",
+          "background": "https://image.tmdb.org/t/p/w500/uq2u8HgtLFJkjNq2kHb2jvipIPT.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Jesse James",
+          "background": "https://image.tmdb.org/t/p/w500/s85NggId22ntp4pbYwTbtHdalnY.jpg",
+          "hidden": true
+        }
+      ],
+      "MNKway": [
+        {
+          "title": "Persona",
+          "background": "https://image.tmdb.org/t/p/w500/bdXbfUir63TQHA5NTNcXPICZCW8.jpg",
+          "hidden": true
+        },
+        {
+          "title": "The face of Another",
+          "background": "https://image.tmdb.org/t/p/w500/eUnFdf1Mf1b8AD3ChMPOCUfTBDQ.jpg",
+          "hidden": true
+        },
+        {
+          "title": "On the Silver Globe",
+          "background": "https://image.tmdb.org/t/p/w500/lgASG2HH1LkFmytPauPdw7GnzRJ.jpg",
+          "hidden": true
+        }
+      ],
+      "Terracid": [
+        {
+          "title": "Wind River",
+          "background": "https://image.tmdb.org/t/p/w500/pySivdR845Hom4u4T2WNkJxe6Ad.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Justice League Snyder's cut",
+          "background": "https://image.tmdb.org/t/p/w500/tnAuB8q5vv7Ax9UAEje5Xi4BXik.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Le Secret des Marrowbone",
+          "background": "https://image.tmdb.org/t/p/w500/ykn2GWDINcbunWPoNVRQtMaybo7.jpg",
+          "hidden": true
+        }
+      ],
+      "happy": [
+        {
+          "title": "chinatown",
+          "background": "https://image.tmdb.org/t/p/w500/7ljxmU9L0ugUvyyg0GBkFaarjEq.jpg",
+          "hidden": true
+        },
+        {
+          "title": "le parrain",
+          "background": "https://image.tmdb.org/t/p/w500/kbRv7ZuU8yo4AWl0JKkkhf4Z3v0.jpg",
+          "hidden": true
+        },
+        {
+          "title": "il était une fois en amérique",
+          "background": "https://image.tmdb.org/t/p/w500/mSkdQjwLcX7YScEhPdsjExsoFWe.jpg",
+          "hidden": true
+        }
+      ]
+    }
+  },
+  {
+    "title": "Coup de cœur 2022 ",
+    "rankings": {
+      "Potatoz": [
+        {
+          "title": "Les Banshees d'Inisherin",
+          "background": "https://image.tmdb.org/t/p/w500/dpeR3ue0Q93Rk8jhE2DzVPMRGIm.jpg",
+          "hidden": true
+        }
+      ],
+      "Grimkujow": [
+        {
+          "title": "EO",
+          "background": "https://image.tmdb.org/t/p/w500/p5txVytUOKpEQ869oKfT6wimTYg.jpg",
+          "hidden": true
+        }
+      ],
+      "MNKway": [
+        {
+          "title": "Funeral Parade of Roses",
+          "background": "https://image.tmdb.org/t/p/w500/7cRQ6rSGajW2soWDr3voEN2rgYO.jpg",
+          "hidden": true
+        }
+      ],
+      "Terracid": [
+        {
+          "title": "Le Dernier Duel",
+          "background": "https://image.tmdb.org/t/p/w500/zjrJE0fpzPvX8saJXj8VNfcjBoU.jpg",
+          "hidden": true
+        }
+      ],
+      "happy": [
+        {
+          "title": "magnolia",
+          "background": "https://image.tmdb.org/t/p/w500/uq2u8HgtLFJkjNq2kHb2jvipIPT.jpg",
+          "hidden": true
+        }
+      ]
+    }
+  }
+]
 		}
 		},
 		mounted(){
