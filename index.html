@@ -423,7 +423,7 @@
 				},
 				fontSize(n, text){
 					let estimation = ((390 - (n*50))/text.length)
-					return estimation < 20 ? 20 : estimation
+					return estimation < 30 ? 30 : estimation > 86 ? 85 : estimation
 				},
 				roll(n){
 					let clickedOn = this.position[n]
