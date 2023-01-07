@@ -37,11 +37,9 @@
 			</div>
 		</div>
 		<div id="dropdown">
-			<select v-model="categoryNb">
-				<option v-for="(key, value) in categories" :value="value">
+			<button v-for="(key, value) in categories" @click="categoryNb = value">
 					{{ key.title }}
-				</option>
-			</select>
+			</button>
 		</div>
 	</div>
 
@@ -461,6 +459,8 @@
 		width: 1920px;
 	}
 	#dropdown{
+		display: flex;
+		flex-direction: row;
 		position: relative;
 		bottom: 0;
 	}
