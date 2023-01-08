@@ -25,7 +25,7 @@
 				</div>				
 				<div v-for="(user,key) in categories[categoryNb].rankings" class="card-container" :key="key">
 					<button v-if="user[n]" class="button" @click="show(categoryNb, key, n)">
-						{{ n }}
+						{{ n + 1 }}
 					</button>
 					<div v-if="user[n]" :class="`card ${user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
 						<img class="background" :src="user[n].background">
@@ -509,6 +509,7 @@
 	}
 	.number {
 		height: 150px;
+    margin-right: -31px;
 	}
 	.card-container {
 		user-select: none;
