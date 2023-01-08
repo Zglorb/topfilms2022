@@ -25,7 +25,7 @@
 				</div>				
 				<div v-for="(user,key) in categories[categoryNb].rankings" class="card-container" :key="key">
 					<button v-if="user[n]" class="button" @click="show(categoryNb, key, n)">
-						{{ n }}
+						{{ n + 1 }}
 					</button>
 					<div v-if="user[n]" :class="`card ${user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
 						<img class="background" :src="user[n].background">
@@ -37,11 +37,9 @@
 			</div>
 		</div>
 		<div id="dropdown">
-			<select v-model="categoryNb">
-				<option v-for="(key, value) in categories" :value="value">
+			<button v-for="(key, value) in categories" @click="categoryNb = value">
 					{{ key.title }}
-				</option>
-			</select>
+			</button>
 		</div>
 	</div>
 
@@ -425,7 +423,7 @@
 				},
 				fontSize(n, text){
 					let estimation = ((390 - (n*50))/text.length)
-					return estimation < 20 ? 20 : estimation
+					return estimation < 30 ? 30 : estimation > 86 ? 85 : estimation
 				},
 				roll(n){
 					let clickedOn = this.position[n]
@@ -452,6 +450,11 @@
 		font-family: trinstam;
 		src: url(Trinstam.ttf);
 	}
+	#dropdown button {
+		height: 60px;
+		width: 500px;
+		font-size: 30px;
+	}
 	#bottom{
 		position: absolute;
 		bottom: 500px;
@@ -461,6 +464,8 @@
 		width: 1920px;
 	}
 	#dropdown{
+		display: flex;
+		flex-direction: row;
 		position: relative;
 		bottom: 0;
 	}
@@ -504,6 +509,7 @@
 	}
 	.number {
 		height: 150px;
+    margin-right: -23px;
 	}
 	.card-container {
 		user-select: none;
