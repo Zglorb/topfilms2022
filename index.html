@@ -18,7 +18,21 @@
 </head>
 <body>
 	<div id="app">
-		<div id="bottom">
+		<div class="center">
+			<button @click="viewers = !viewers">
+				VOTE DES VIEWERS
+			</button>
+		</div>
+		<div id="bottom">	
+			<div v-if="viewers" class="viewers animate__animated animate__fadeIn" >
+				<div class="choice animate__animated animate__tada">
+					<img height="300px" :src="categories[categoryNb].viewers.background">
+					<div style="color: white; font-size: 32px;">{{categories[categoryNb].viewers.title}}</div>
+				</div>
+				<div class="overlay-bg">	
+				</div>
+			</div>
+			
 			<div v-for="(k, n) in 3" :class="`line position-${position[n]}`" :key="n">
 				<div v-if="categories[categoryNb].rankings[Object.keys(categories[categoryNb].rankings)[0]][n]" @click="roll(n)">
 					<img class="number" :src="`${n + 1}.png`"/>
@@ -37,10 +51,11 @@
 			</div>
 		</div>
 		<div id="dropdown">
-			<button v-for="(key, value) in categories" @click="categoryNb = value">
-					{{ key.title }}
+			<button v-for="(key, value) in categories" @click="changeCategory(value)">
+				{{ key.title }}
 			</button>
 		</div>
+
 	</div>
 
 	<script type="module">
@@ -53,352 +68,370 @@
 			categoryNb: 0,
 			rank: 0,
 			position: [0, 1, 2],
+			viewers: false,
 			categories: [
   {
-    "title": "Top 3 film 2022 ",
+    "title": "Top 3 film 2023 ",
+	"viewers": {
+		"title": "Oppenheimer",
+		"background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg"
+	},
     "rankings": {
-      "Potatoz": [
-        {
-          "title": "The Fabelmans",
-          "background": "https://image.tmdb.org/t/p/w500/xId9zoiv5WPQOuxqykUDrlpmrUz.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Blonde",
-          "background": "https://image.tmdb.org/t/p/w500/jOgbnL5FB30pprEjZaY1E1iPtPM.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Avatar 2",
-          "background": "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
-          "hidden": true
-        }
-      ],
-      "Grimkujow": [
-        {
-          "title": "Avatar 2",
-          "background": "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Conspiration du Caire",
-          "background": "https://image.tmdb.org/t/p/w500/uV9vncbbQlwtTSOv9vPVYkbmN4X.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Bardo",
-          "background": "https://image.tmdb.org/t/p/w500/3e6RA0CzFDC0pz5TqiRlbHcsc2n.jpg",
-          "hidden": true
-        }
-      ],
-      "MNKway": [
-        {
-          "title": "Avatar",
-          "background": "https://image.tmdb.org/t/p/w500/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Shin Ultraman",
-          "background": "https://image.tmdb.org/t/p/w500/9bU8K4rdRhM03tAVW0MNXTx5kFQ.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Decision to Leave",
-          "background": "https://www.themoviedb.org/t/p/original/pDpfZtcRQUYgWPbqkfC8qOevXiv.jpg",
-          "hidden": true
-        }
-      ],
       "Terracid": [
         {
-          "title": "The Green Knight",
-          "background": "https://image.tmdb.org/t/p/w500/if4hw3Ou5Sav9Em7WWHj66mnywp.jpg",
+          "title": "The Creator",
+          "background": "https://image.tmdb.org/t/p/w500/8QA8JMllyFKd1LskMgXkP9eZ3Wl.jpg",
           "hidden": true
         },
         {
-          "title": "Athena",
-          "background": "https://image.tmdb.org/t/p/w500/s8B0GsFEebd0DW2spykLMxnc1Kn.jpg",
+          "title": "Society of the Snow",
+          "background": "https://image.tmdb.org/t/p/w500/nDbV9AUeUc7Zf5vUAqoagF7O8M7.jpg",
           "hidden": true
         },
         {
-          "title": "The Northman",
-          "background": "https://image.tmdb.org/t/p/w500/aSSJMnHknzKjlZ6zybwD7eyJ4Po.jpg",
+          "title": "Red Rooms",
+          "background": "https://image.tmdb.org/t/p/w500/eWcmVLGRuK0cQIXU3sLebwncZRl.jpg",
           "hidden": true
         }
       ],
-      "happy": [
+      "Jean": [
         {
-          "title": "blonde",
-          "background": "https://image.tmdb.org/t/p/w500/jOgbnL5FB30pprEjZaY1E1iPtPM.jpg",
+          "title": "Godzilla Minus One",
+          "background": "https://image.tmdb.org/t/p/w500/tBzOqSc51CiUeOlxW2unvYVBU8v.jpg",
           "hidden": true
         },
         {
-          "title": "avatar",
-          "background": "https://image.tmdb.org/t/p/w500/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg",
+          "title": "Mars Express",
+          "background": "https://image.tmdb.org/t/p/w500/7n9OhLFIs9de4DYS0aQxNiHgvqh.jpg",
           "hidden": true
         },
         {
-          "title": "pinocchio del torro",
-          "background": "https://image.tmdb.org/t/p/w500/vx1u0uwxdlhV2MUzj4VlcMB0N6m.jpg",
-          "hidden": true
-        }
-      ]
-    }
-  },
-  {
-    "title": "Flop 3 film 2022 ",
-    "rankings": {
-      "Potatoz": [
-        {
-          "title": "Glass Onion",
-          "background": "https://image.tmdb.org/t/p/w500/vDGr1YdrlfbU9wxTOdpf3zChmv9.jpg",
+          "title": "Shin Kamen Rider",
+          "background": "https://image.tmdb.org/t/p/w500/9dTO2RygcDT0cQkawABw4QkDegN.jpg",
           "hidden": true
         },
         {
-          "title": "Nope",
-          "background": "https://image.tmdb.org/t/p/w500/AcKVlWaNVVVFQwro3nLXqPljcYA.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Doctor Strange 2",
-          "background": "https://image.tmdb.org/t/p/w500/fwBl3J2aEXru6mrr9Xg8O99Iz2K.jpg",
-          "hidden": true
-        }
-      ],
-      "Grimkujow": [
-        {
-          "title": "En Corps",
-          "background": "https://image.tmdb.org/t/p/w500/wymdTmKl2uyuIWa82qaJgmevyZ1.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Novembre",
-          "background": "https://image.tmdb.org/t/p/w500/muXJAhYO0RWq0F0KWXqEswpNckr.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Armageddon Time",
-          "background": "https://image.tmdb.org/t/p/w500/jCLmDpJYNPfDirkgfzhZXZY6nrm.jpg",
-          "hidden": true
-        }
-      ],
-      "MNKway": [
-        {
-          "title": "Morbius",
-          "background": "https://image.tmdb.org/t/p/w500/6JjfSchsU6daXk2AKX8EEBjO3Fm.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Prey",
-          "background": "https://image.tmdb.org/t/p/w500/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg",
-          "hidden": true
-        },
-        {
-          "title": "X",
-          "background": "https://image.tmdb.org/t/p/w500/woTQx9Q4b8aO13jR9dsj8C9JESy.jpg",
-          "hidden": true
-        }
-      ],
-      "Terracid": [
-        {
-          "title": "Men",
-          "background": "https://image.tmdb.org/t/p/w500/jo1Kv3P3UgDVk7JnUFr2Cl8WWUM.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Nightmare Alley",
-          "background": "https://image.tmdb.org/t/p/w500/tgnZxc8PxbwKFJvlTxew9jpYFZo.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Spencer",
-          "background": "https://image.tmdb.org/t/p/w500/7GcqdBKaMM9BWXWN07BirBMkcBF.jpg",
-          "hidden": true
-        }
-      ],
-      "happy": [
-        {
-          "title": "pinocchio zemeckis",
-          "background": "https://fr.web.img2.acsta.net/pictures/22/08/25/09/39/1782291.jpg",
-          "hidden": true
-        },
-        {
-          "title": "thor",
-          "background": "https://image.tmdb.org/t/p/w500/pIkRyD18kl4FhoCNQuWxWu5cBLM.jpg",
-          "hidden": true
-        },
-        {
-          "title": "arthur malédiction",
-          "background": "https://image.tmdb.org/t/p/w500/3Hdjclma1lkMeJDsA7VfpOY4Jrd.jpg",
-          "hidden": true
-        }
-      ]
-    }
-  },
-  {
-    "title": " Top 1 Série 2022 ",
-    "rankings": {
-      "Potatoz": [
-        {
-          "title": "Better Call Saul",
-          "background": "https://flxt.tmsimg.com/assets/p13837077_b_v8_aa.jpg",
-          "hidden": true
-        }
-      ],
-      "Grimkujow": [
-        {
-          "title": "Twin Peaks",
-          "background": "https://m.media-amazon.com/images/M/MV5BMTExNzk2NjcxNTNeQTJeQWpwZ15BbWU4MDcxOTczOTIx._V1_FMjpg_UX1000_.jpg",
-          "hidden": true
-        }
-      ],
-      "MNKway": [
-        {
-          "title": "House of Dragon",
-          "background": "https://m.media-amazon.com/images/M/MV5BZjBiOGIyY2YtOTA3OC00YzY1LThkYjktMGRkYTNhNTExY2I2XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg",
-          "hidden": true
-        }
-      ],
-      "Terracid": [
-        {
-          "title": "House of the Dragon",
-          "background": "https://m.media-amazon.com/images/M/MV5BZjBiOGIyY2YtOTA3OC00YzY1LThkYjktMGRkYTNhNTExY2I2XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg",
-          "hidden": true
-        }
-      ],
-      "happy": [
-        {
-          "title": "pas vu",
+          "title": "",
           "background": "",
           "hidden": true
         }
+      ],
+      "Grimkujow": [
+        {
+          "title": "Killers Of The Flower Moon",
+          "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Spider Verse",
+          "background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Le Règne Animal",
+          "background": "https://image.tmdb.org/t/p/w500/1gO4SWCdMW0ptIRLQ455Ia5emC.jpg",
+          "hidden": true
+        }
+      ],
+      "Potatoz": [
+        {
+          "title": "Killers of The Flower Moon",
+          "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Anatomie d'une Chute",
+          "background": "https://image.tmdb.org/t/p/w500/vwpB79T0KGxqZSx0wormGC58OZB.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Interdit aux chiens et aux Italiens",
+          "background": "https://image.tmdb.org/t/p/w500/qSDA01KsLvs6nza10j8g1penILQ.jpg",
+          "hidden": true
+        }
+      ],
+      "DIEGO": [
+        {
+          "title": "Across The Spider-Verse",
+          "background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Monster",
+          "background": "https://image.tmdb.org/t/p/w500/k8mazEQ935PbqbqRP7eBGssN3g9.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Killers of the Flower Moon",
+          "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
+          "hidden": true
+        }
       ]
     }
   },
   {
-    "title": " Top 3 film hors 2022 ",
+    "title": "Flop 3 film 2023 ",
+	"viewers": {
+		"title": "Barbie",
+		"background": "https://image.tmdb.org/t/p/w500/oQjqjIQ46VVa8Q80y3FfLrPXoK3.jpg"
+	},
     "rankings": {
-      "Potatoz": [
+      "Terracid": [
         {
-          "title": "Paris Texas",
-          "background": "https://image.tmdb.org/t/p/w500/6NuFYT1f1rG0AeIVTJEgsRa7AOi.jpg",
+          "title": "Priscilla",
+          "background": "https://image.tmdb.org/t/p/w500/uDCeELWWpsNq7ErM61Yuq70WAE9.jpg",
           "hidden": true
         },
         {
-          "title": "L'Armée des ombres",
-          "background": "https://image.tmdb.org/t/p/w500/aqNZWM9bspt8zaDvVRIRiWxRVJ7.jpg",
+          "title": "Knock at the Cabin",
+          "background": "https://image.tmdb.org/t/p/w500/he2uDTy6CFUgdaHw3EeKjRmD92F.jpg",
           "hidden": true
         },
         {
-          "title": "Sailor & Lula",
-          "background": "https://image.tmdb.org/t/p/w500/uLUFI5sJIfWrBUWB2Y1dEuyvvVy.jpg",
+          "title": "To Catch a Killer",
+          "background": "https://image.tmdb.org/t/p/w500/1r21VJFlFYa873wlq5tIblPLAGP.jpg",
+          "hidden": true
+        }
+      ],
+      "Jean": [
+        {
+          "title": "The Flash",
+          "background": "https://image.tmdb.org/t/p/w500/azio74W2qw7bNg7ePqzkWywwK1n.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Scream 6",
+          "background": "https://image.tmdb.org/t/p/w500/yQw8BtQedzm5aUo9zQCUMxQBtIJ.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Cocaine Bear",
+          "background": "https://image.tmdb.org/t/p/w500/crl0mZX2wPzuB7YYslcU8UIv1Ml.jpg",
           "hidden": true
         }
       ],
       "Grimkujow": [
         {
-          "title": "Phantom of the paradise",
-          "background": "https://image.tmdb.org/t/p/w500/AkS1Pg1bUKMzfhItnoMscLY3RJn.jpg",
+          "title": "Beau Is Afraid",
+          "background": "https://image.tmdb.org/t/p/w500/uS77R2vuiZpKZLL0VEjPF8ArWfq.jpg",
           "hidden": true
         },
         {
-          "title": "Magnolia",
-          "background": "https://image.tmdb.org/t/p/w500/uq2u8HgtLFJkjNq2kHb2jvipIPT.jpg",
+          "title": "Asteroid City",
+          "background": "https://image.tmdb.org/t/p/w500/76Fx5kjWnoxtHiKifs4wh52f8og.jpg",
           "hidden": true
         },
         {
-          "title": "Jesse James",
-          "background": "https://image.tmdb.org/t/p/w500/s85NggId22ntp4pbYwTbtHdalnY.jpg",
+          "title": "Oppenheimer",
+          "background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg",
           "hidden": true
         }
       ],
-      "MNKway": [
+      "Potatoz": [
+        {
+          "title": "Barbie",
+          "background": "https://image.tmdb.org/t/p/w500/oQjqjIQ46VVa8Q80y3FfLrPXoK3.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Super Mario",
+          "background": "https://image.tmdb.org/t/p/w500/ahMxyHMSJXingQr4yJBMzMU9k42.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Babylon",
+          "background": "https://image.tmdb.org/t/p/w500/lO0D9TFbWtowoDfDqkPNZyKIcIq.jpg",
+          "hidden": true
+        }
+      ],
+      "DIEGO": [
+        {
+          "title": "Oppenheimer",
+          "background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Mario",
+          "background": "https://image.tmdb.org/t/p/w500/ahMxyHMSJXingQr4yJBMzMU9k42.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Talk to me",
+          "background": "https://image.tmdb.org/t/p/w500/yoZmZOIk35ZuH0WJoakB81ypHUH.jpg",
+          "hidden": true
+        }
+      ]
+    }
+  },
+  {
+    "title": " Top 1 Série 2023 ",
+    "rankings": {
+      "Terracid": [
+        {
+          "title": "La Chute de la maison Usher",
+          "background": "https://image.tmdb.org/t/p/w500/iXkiBAggUFbPqhSOMx1gyePSAO2.jpg",
+          "hidden": true
+        }
+      ],
+      "Jean": [
+        {
+          "title": "Les Sopranos",
+          "background": "https://image.tmdb.org/t/p/w500/sFbtfqsmrTJS0WbxPGxyInNZoMo.jpg",
+          "hidden": true
+        }
+      ],
+      "Grimkujow": [
+        {
+          "title": "Les Sopranos",
+          "background": "https://image.tmdb.org/t/p/w500/sFbtfqsmrTJS0WbxPGxyInNZoMo.jpg",
+          "hidden": true
+        }
+      ],
+      "Potatoz": [
+        {
+          "title": "The Sopranos",
+          "background": "https://image.tmdb.org/t/p/w500/9wN5d2HGtyU1gckzQzl6nl8oipw.jpg",
+          "hidden": true
+        }
+      ],
+      "DIEGO": [
+        {
+          "title": "The Bear",
+          "background": "https://image.tmdb.org/t/p/w500/g6MsFUSFwm1SvQp2hswxgRWpptR.jpg",
+          "hidden": true
+        }
+      ]
+    }
+  },
+  {
+    "title": " Top 3 film hors 2023 ",
+    "rankings": {
+      "Terracid": [
+        {
+          "title": "The Favourite",
+          "background": "https://image.tmdb.org/t/p/w500/bZC5VeHX39PfhsZEcdjD7RHKFSH.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Paprika",
+          "background": "https://image.tmdb.org/t/p/w500/odTCrXktfjTKhsgukKzepvIfdGC.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Boogie Nights",
+          "background": "https://image.tmdb.org/t/p/w500/qkgnK7CcefeqIThLyNjQasANGRt.jpg",
+          "hidden": true
+        }
+      ],
+      "Jean": [
+        {
+          "title": "High and Low",
+          "background": "https://image.tmdb.org/t/p/w500/cmbTqPuV7WMPCLWFeybpZwf4up2.jpg",
+          "hidden": true
+        },
+        {
+          "title": "Hana-bi",
+          "background": "https://image.tmdb.org/t/p/w500/oWI4NovPYyAObZcKMUHCuaU8mhg.jpg",
+          "hidden": true
+        },
+        {
+          "title": "His motorbike Her island",
+          "background": "https://image.tmdb.org/t/p/w500/2yUN50OHeJLaMcu5nO1D2nX5frr.jpg",
+          "hidden": true
+        }
+      ],
+      "Grimkujow": [
         {
           "title": "Persona",
-          "background": "https://image.tmdb.org/t/p/w500/bdXbfUir63TQHA5NTNcXPICZCW8.jpg",
+          "background": "https://image.tmdb.org/t/p/w500/5DD1LJWLzLS8UYwDZKRdSwVaRr5.jpg",
           "hidden": true
         },
         {
-          "title": "The face of Another",
-          "background": "https://image.tmdb.org/t/p/w500/eUnFdf1Mf1b8AD3ChMPOCUfTBDQ.jpg",
+          "title": "Le Bonheur",
+          "background": "https://image.tmdb.org/t/p/w500/3Rhe6oVPGCmghZ0M0iqiJkNJu7d.jpg",
           "hidden": true
         },
         {
-          "title": "On the Silver Globe",
-          "background": "https://image.tmdb.org/t/p/w500/lgASG2HH1LkFmytPauPdw7GnzRJ.jpg",
+          "title": "Dancer in the dark",
+          "background": "https://image.tmdb.org/t/p/w500/sBh45R8jwJRiN72tnjV49Amhu09.jpg",
           "hidden": true
         }
       ],
-      "Terracid": [
+      "Potatoz": [
         {
-          "title": "Wind River",
-          "background": "https://image.tmdb.org/t/p/w500/pySivdR845Hom4u4T2WNkJxe6Ad.jpg",
+          "title": "Il était une fois dans l'Ouest",
+          "background": "https://image.tmdb.org/t/p/w500/xjXKy5b2M3fDelAQItIswcDNvwm.jpg",
           "hidden": true
         },
         {
-          "title": "Justice League Snyder's cut",
-          "background": "https://image.tmdb.org/t/p/w500/tnAuB8q5vv7Ax9UAEje5Xi4BXik.jpg",
+          "title": "Autumn Sonata",
+          "background": "https://image.tmdb.org/t/p/w500/3WwOPJHhBLzh6iGWcR152kQY4T6.jpg",
           "hidden": true
         },
         {
-          "title": "Le Secret des Marrowbone",
-          "background": "https://image.tmdb.org/t/p/w500/ykn2GWDINcbunWPoNVRQtMaybo7.jpg",
+          "title": "The Insider",
+          "background": "https://image.tmdb.org/t/p/w500/7uJZ3OLNLMznzUcByqF5yELC6CU.jpg",
           "hidden": true
         }
       ],
-      "happy": [
+      "DIEGO": [
         {
-          "title": "magnolia",
-          "background": "https://image.tmdb.org/t/p/w500/uq2u8HgtLFJkjNq2kHb2jvipIPT.jpg",
+          "title": "Fire Walk With Me",
+          "background": "https://image.tmdb.org/t/p/w500/2lV7va18qO6KYyLXSxanf6a38J6.jpg",
           "hidden": true
         },
         {
-          "title": "king of comedy",
-          "background": "https://image.tmdb.org/t/p/w500/m24EbHxT9NGYEkOlu29YcLOgjgK.jpg",
+          "title": "Apocalypse Now",
+          "background": "https://image.tmdb.org/t/p/w500/scaiAT7I2KZ2GAeMvoU6Ro1515J.jpg",
           "hidden": true
         },
         {
-          "title": "chinatown",
-          "background": "https://image.tmdb.org/t/p/w500/7ljxmU9L0ugUvyyg0GBkFaarjEq.jpg",
+          "title": "Mademoiselle",
+          "background": "https://image.tmdb.org/t/p/w500/zfalxqrBYa60wp1RkSclOMcLtZT.jpg",
           "hidden": true
         }
       ]
     }
   },
   {
-    "title": "Coup de cœur 2022 ",
+    "title": "Coup de cœur 2023 ",
+	"viewers": {
+		"title": "Spiderman : Across the Spider-Verse",
+		"background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg"
+	},
     "rankings": {
-      "Potatoz": [
+      "Terracid": [
         {
-          "title": "Les Banshees d'Inisherin",
-          "background": "https://image.tmdb.org/t/p/w500/dpeR3ue0Q93Rk8jhE2DzVPMRGIm.jpg",
+          "title": "Dream Scenario",
+          "background": "https://image.tmdb.org/t/p/w500/6J0XdVNGgPLzas4kdp2Dr8YduBw.jpg",
+          "hidden": true
+        }
+      ],
+      "Jean": [
+        {
+          "title": "Gunhed",
+          "background": "https://image.tmdb.org/t/p/w500/ySNPwAzfLwrUz2Yar3HCWK3huLx.jpg",
           "hidden": true
         }
       ],
       "Grimkujow": [
         {
-          "title": "EO",
-          "background": "https://image.tmdb.org/t/p/w500/p5txVytUOKpEQ869oKfT6wimTYg.jpg",
+          "title": "Chien de la casse",
+          "background": "https://image.tmdb.org/t/p/w500/pBti2tzvpbHT6ueXJaFjTEnL2wg.jpg",
           "hidden": true
         }
       ],
-      "MNKway": [
+      "Potatoz": [
         {
-          "title": "Funeral Parade of Roses",
-          "background": "https://image.tmdb.org/t/p/w500/7cRQ6rSGajW2soWDr3voEN2rgYO.jpg",
+          "title": "Chien de la casse",
+          "background": "https://image.tmdb.org/t/p/w500/pBti2tzvpbHT6ueXJaFjTEnL2wg.jpg",
           "hidden": true
         }
       ],
-      "Terracid": [
+      "DIEGO": [
         {
-          "title": "Le Dernier Duel",
-          "background": "https://image.tmdb.org/t/p/w500/zjrJE0fpzPvX8saJXj8VNfcjBoU.jpg",
-          "hidden": true
-        }
-      ],
-      "happy": [
-        {
-          "title": "le chat potté 2",
-          "background": "https://image.tmdb.org/t/p/w500/lmf0zzR7ritjOL3qumRh3hfvOFK.jpg",
+          "title": "Le règne animal",
+          "background": "https://image.tmdb.org/t/p/w500/1gO4SWCdMW0ptIRLQ455Ia5emC.jpg",
           "hidden": true
         }
       ]
@@ -442,6 +475,10 @@
 				show(category, user, index){
 					this.categories[category].rankings[user][index].hidden = !this.categories[category].rankings[user][index].hidden
 				},
+				changeCategory(category){
+					this.categoryNb = category
+					this.viewers = false
+				}
 			},
 	}).mount('#app')
 	</script>
@@ -551,6 +588,40 @@
       height: 100%;
       filter: blur(5px) brightness(0.5);
     }
+	.center {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.viewers {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 400px;
+		z-index: 10;
+	}
+	.choice {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		z-index: 11;
+	}
+	.overlay-bg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background-color: #000000;
+		opacity: 0.5;
+	}
 </style>
 </body>
 </html>
