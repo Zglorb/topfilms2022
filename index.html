@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
 	<title>top films</title>
 	<!--Link to vue js-->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -17,44 +18,84 @@
 	</script>
 </head>
 <body>
-	<div id="app">
-		<div class="center">
-			<button @click="viewers = !viewers">
-				VOTE DES VIEWERS
-			</button>
+	<div id="app" style="opacity: 0;">
+    <div style="height: 30px; background-color: white; width: 100%;"></div>
+		<div id="" style="">	
+    <!-- <div id="bottom">	 -->
+      <div style="position: relative;">
+        <div v-if="viewers" class="viewers animate__animated animate__fadeIn" >
+          <div class="choice animate__animated animate__tada">
+            <img height="240px" :src="categories[categoryNb].viewers.background">
+            <div style="color: white; font-size: 32px;">{{categories[categoryNb].viewers.title}}</div>
+          </div>
+          <div class="overlay-bg">	
+          </div>
+        </div>
+        <div v-if="categories[categoryNb]">
+          <div id="judges">
+            <div v-for="(user,key) in categories[categoryNb].rankings">
+              <div class="posters-box">
+                <div v-for="(movie, n) in user" :class="`poster-box poster-${n} ${user[n].focus ? `focused-${n}` : 'unfocused'}`" :key="n">
+                  <transition
+                  name="bounce"
+                  enter-active-class="bounceInFromBottom"
+                  leave-active-class="bounceOutFromBottom"
+                >
+                  <div v-if="!user[n].hidden" :key="n">
+                    <img :src="user[n].background" class="poster"/>
+                    <img 
+                      :src="'green.svg'" 
+                      :style="`width: ${ratingWidth(5)};`"
+                      :class="`star-rating ${user[n].focus ? 'star-focused' : ''}`" 
+                      alt="green"
+                    />
+                    <img 
+                      :src="`${n + 1}.png`"
+                      :class="`number number-${n} animate__animated ${
+                        user[n].hidden ? 'animate__zoomOut' : 'animate__zoomIn animate__delay-1s'
+                      }`"
+                    />
+                  </div>
+                </transition>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 		</div>
-		<div id="bottom">	
-			<div v-if="viewers" class="viewers animate__animated animate__fadeIn" >
-				<div class="choice animate__animated animate__tada">
-					<img height="300px" :src="categories[categoryNb].viewers.background">
-					<div style="color: white; font-size: 32px;">{{categories[categoryNb].viewers.title}}</div>
-				</div>
-				<div class="overlay-bg">	
-				</div>
-			</div>
-			
-			<div v-for="(k, n) in 3" :class="`line position-${position[n]}`" :key="n">
-				<div v-if="categories[categoryNb].rankings[Object.keys(categories[categoryNb].rankings)[0]][n]" @click="roll(n)">
-					<img class="number" :src="`${n + 1}.png`"/>
-				</div>				
-				<div v-for="(user,key) in categories[categoryNb].rankings" class="card-container" :key="key">
-					<button v-if="user[n]" class="button" @click="show(categoryNb, key, n)">
-						{{ n + 1 }}
-					</button>
-					<div v-if="user[n]" :class="`card ${user[n].hidden ? 'hidden' : 'animate__animated animate__jackInTheBox'}`" :style="`width: ${335 - (n*50)}px`" >
-						<img class="background" :src="user[n].background">
-						<div class="card-title" :style="`transform: rotate(${user[n].tilt}deg); font-size: ${fontSize(n, user[n].title)}px`">
-							{{ user[n].title.toUpperCase() }}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="dropdown">
-			<button v-for="(key, value) in categories" @click="changeCategory(value)">
-				{{ key.title }}
-			</button>
-		</div>
+    <div style="background-color: #ffffff; position: relative;">
+      <div v-if="preventClick" id="overlay-prevent">
+        <img src="waiting.svg" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"/>
+      </div>
+      <div id="dropdown">
+        <button v-for="(key, value) in categories" @click="changeCategory(value)" :class="`${categoryNb == value ? 'buttonToggled' : '' }`">
+          {{ key.title }}
+        </button>
+      </div>
+      <div v-if="categories[categoryNb]" id="controls">
+        <div v-for="(user,key) in categories[categoryNb].rankings">
+          <h2>{{key}}</h2>
+          <div style="display: flex; flex-direction: column-reverse;">
+            <div v-for="(movie, index) in user" class="user-control">
+              <p>{{ index + 1 }}</p>
+              <button :class="`${movie.hidden ? '' : 'buttonToggled'}`" @click="show(categoryNb, key, index)"> AFFICHER </button>
+              <button :class="`${movie.focus ? 'buttonToggled' : ''}`" @click="focusOne(categoryNb, key, index)"> FOCUS </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="center" style="margin-top: 50px;">
+        <button @click="viewers = !viewers">
+          VOTE DES VIEWERS
+        </button>
+      </div>
+      <div class="center" style="margin-top: 50px;">
+        <button @click="hideAll">
+          TOUT CACHER
+        </button>
+      </div>
+    </div>
 
 	</div>
 
@@ -64,113 +105,105 @@
 	createApp({
 		data() {
 		return {
+      preventClick: false,
 			message: 'Hello Vue!',
 			categoryNb: 0,
 			rank: 0,
 			position: [0, 1, 2],
+      t: [1, 0, 2],
 			viewers: false,
 			categories: [
   {
-    "title": "Top 3 film 2023 ",
+    "title": "Top 3 film 2024 ",
 	"viewers": {
 		"title": "Oppenheimer",
 		"background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg"
 	},
     "rankings": {
-      "Terracid": [
-        {
-          "title": "The Creator",
-          "background": "https://image.tmdb.org/t/p/w500/8QA8JMllyFKd1LskMgXkP9eZ3Wl.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Society of the Snow",
-          "background": "https://image.tmdb.org/t/p/w500/nDbV9AUeUc7Zf5vUAqoagF7O8M7.jpg",
-          "hidden": true
-        },
-        {
-          "title": "Red Rooms",
-          "background": "https://image.tmdb.org/t/p/w500/eWcmVLGRuK0cQIXU3sLebwncZRl.jpg",
-          "hidden": true
-        }
-      ],
       "Jean": [
         {
           "title": "Godzilla Minus One",
           "background": "https://image.tmdb.org/t/p/w500/tBzOqSc51CiUeOlxW2unvYVBU8v.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Mars Express",
           "background": "https://image.tmdb.org/t/p/w500/7n9OhLFIs9de4DYS0aQxNiHgvqh.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Shin Kamen Rider",
           "background": "https://image.tmdb.org/t/p/w500/9dTO2RygcDT0cQkawABw4QkDegN.jpg",
-          "hidden": true
-        },
-        {
-          "title": "",
-          "background": "",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Grimkujow": [
         {
           "title": "Killers Of The Flower Moon",
           "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Spider Verse",
           "background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Le Règne Animal",
           "background": "https://image.tmdb.org/t/p/w500/1gO4SWCdMW0ptIRLQ455Ia5emC.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Potatoz": [
         {
           "title": "Killers of The Flower Moon",
           "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Anatomie d'une Chute",
           "background": "https://image.tmdb.org/t/p/w500/vwpB79T0KGxqZSx0wormGC58OZB.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Interdit aux chiens et aux Italiens",
           "background": "https://image.tmdb.org/t/p/w500/qSDA01KsLvs6nza10j8g1penILQ.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "DIEGO": [
         {
           "title": "Across The Spider-Verse",
           "background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Monster",
           "background": "https://image.tmdb.org/t/p/w500/k8mazEQ935PbqbqRP7eBGssN3g9.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Killers of the Flower Moon",
           "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ]
     }
   },
   {
-    "title": "Flop 3 film 2023 ",
+    "title": "Flop 3 film 2024 ",
 	"viewers": {
 		"title": "Barbie",
 		"background": "https://image.tmdb.org/t/p/w500/oQjqjIQ46VVa8Q80y3FfLrPXoK3.jpg"
@@ -180,221 +213,256 @@
         {
           "title": "Priscilla",
           "background": "https://image.tmdb.org/t/p/w500/uDCeELWWpsNq7ErM61Yuq70WAE9.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Knock at the Cabin",
           "background": "https://image.tmdb.org/t/p/w500/he2uDTy6CFUgdaHw3EeKjRmD92F.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "To Catch a Killer",
           "background": "https://image.tmdb.org/t/p/w500/1r21VJFlFYa873wlq5tIblPLAGP.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Jean": [
         {
           "title": "The Flash",
           "background": "https://image.tmdb.org/t/p/w500/azio74W2qw7bNg7ePqzkWywwK1n.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Scream 6",
           "background": "https://image.tmdb.org/t/p/w500/yQw8BtQedzm5aUo9zQCUMxQBtIJ.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Cocaine Bear",
           "background": "https://image.tmdb.org/t/p/w500/crl0mZX2wPzuB7YYslcU8UIv1Ml.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Grimkujow": [
         {
           "title": "Beau Is Afraid",
           "background": "https://image.tmdb.org/t/p/w500/uS77R2vuiZpKZLL0VEjPF8ArWfq.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Asteroid City",
           "background": "https://image.tmdb.org/t/p/w500/76Fx5kjWnoxtHiKifs4wh52f8og.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Oppenheimer",
           "background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Potatoz": [
         {
           "title": "Barbie",
           "background": "https://image.tmdb.org/t/p/w500/oQjqjIQ46VVa8Q80y3FfLrPXoK3.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Super Mario",
           "background": "https://image.tmdb.org/t/p/w500/ahMxyHMSJXingQr4yJBMzMU9k42.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Babylon",
           "background": "https://image.tmdb.org/t/p/w500/lO0D9TFbWtowoDfDqkPNZyKIcIq.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "DIEGO": [
         {
           "title": "Oppenheimer",
           "background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Mario",
           "background": "https://image.tmdb.org/t/p/w500/ahMxyHMSJXingQr4yJBMzMU9k42.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Talk to me",
           "background": "https://image.tmdb.org/t/p/w500/yoZmZOIk35ZuH0WJoakB81ypHUH.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ]
     }
   },
   {
-    "title": " Top 1 Série 2023 ",
+    "title": " Top 1 Série 2024 ",
     "rankings": {
       "Terracid": [
         {
           "title": "La Chute de la maison Usher",
           "background": "https://image.tmdb.org/t/p/w500/iXkiBAggUFbPqhSOMx1gyePSAO2.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Jean": [
         {
           "title": "Les Sopranos",
           "background": "https://image.tmdb.org/t/p/w500/sFbtfqsmrTJS0WbxPGxyInNZoMo.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Grimkujow": [
         {
           "title": "Les Sopranos",
           "background": "https://image.tmdb.org/t/p/w500/sFbtfqsmrTJS0WbxPGxyInNZoMo.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Potatoz": [
         {
           "title": "The Sopranos",
           "background": "https://image.tmdb.org/t/p/w500/9wN5d2HGtyU1gckzQzl6nl8oipw.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "DIEGO": [
         {
           "title": "The Bear",
           "background": "https://image.tmdb.org/t/p/w500/g6MsFUSFwm1SvQp2hswxgRWpptR.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ]
     }
   },
   {
-    "title": " Top 3 film hors 2023 ",
+    "title": " Top 3 film hors 2024 ",
     "rankings": {
       "Terracid": [
         {
           "title": "The Favourite",
           "background": "https://image.tmdb.org/t/p/w500/bZC5VeHX39PfhsZEcdjD7RHKFSH.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Paprika",
           "background": "https://image.tmdb.org/t/p/w500/odTCrXktfjTKhsgukKzepvIfdGC.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Boogie Nights",
           "background": "https://image.tmdb.org/t/p/w500/qkgnK7CcefeqIThLyNjQasANGRt.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Jean": [
         {
           "title": "High and Low",
           "background": "https://image.tmdb.org/t/p/w500/cmbTqPuV7WMPCLWFeybpZwf4up2.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Hana-bi",
           "background": "https://image.tmdb.org/t/p/w500/oWI4NovPYyAObZcKMUHCuaU8mhg.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "His motorbike Her island",
           "background": "https://image.tmdb.org/t/p/w500/2yUN50OHeJLaMcu5nO1D2nX5frr.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Grimkujow": [
         {
           "title": "Persona",
           "background": "https://image.tmdb.org/t/p/w500/5DD1LJWLzLS8UYwDZKRdSwVaRr5.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Le Bonheur",
           "background": "https://image.tmdb.org/t/p/w500/3Rhe6oVPGCmghZ0M0iqiJkNJu7d.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Dancer in the dark",
           "background": "https://image.tmdb.org/t/p/w500/sBh45R8jwJRiN72tnjV49Amhu09.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Potatoz": [
         {
           "title": "Il était une fois dans l'Ouest",
           "background": "https://image.tmdb.org/t/p/w500/xjXKy5b2M3fDelAQItIswcDNvwm.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Autumn Sonata",
           "background": "https://image.tmdb.org/t/p/w500/3WwOPJHhBLzh6iGWcR152kQY4T6.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "The Insider",
           "background": "https://image.tmdb.org/t/p/w500/7uJZ3OLNLMznzUcByqF5yELC6CU.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "DIEGO": [
         {
           "title": "Fire Walk With Me",
           "background": "https://image.tmdb.org/t/p/w500/2lV7va18qO6KYyLXSxanf6a38J6.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Apocalypse Now",
           "background": "https://image.tmdb.org/t/p/w500/scaiAT7I2KZ2GAeMvoU6Ro1515J.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         },
         {
           "title": "Mademoiselle",
           "background": "https://image.tmdb.org/t/p/w500/zfalxqrBYa60wp1RkSclOMcLtZT.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ]
     }
   },
   {
-    "title": "Coup de cœur 2023 ",
+    "title": "Coup de cœur 2024 ",
 	"viewers": {
 		"title": "Spiderman : Across the Spider-Verse",
 		"background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg"
@@ -404,35 +472,40 @@
         {
           "title": "Dream Scenario",
           "background": "https://image.tmdb.org/t/p/w500/6J0XdVNGgPLzas4kdp2Dr8YduBw.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Jean": [
         {
           "title": "Gunhed",
           "background": "https://image.tmdb.org/t/p/w500/ySNPwAzfLwrUz2Yar3HCWK3huLx.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Grimkujow": [
         {
           "title": "Chien de la casse",
           "background": "https://image.tmdb.org/t/p/w500/pBti2tzvpbHT6ueXJaFjTEnL2wg.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "Potatoz": [
         {
           "title": "Chien de la casse",
           "background": "https://image.tmdb.org/t/p/w500/pBti2tzvpbHT6ueXJaFjTEnL2wg.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ],
       "DIEGO": [
         {
           "title": "Le règne animal",
           "background": "https://image.tmdb.org/t/p/w500/1gO4SWCdMW0ptIRLQ455Ia5emC.jpg",
-          "hidden": true
+          "hidden": true,
+          "focus": false
         }
       ]
     }
@@ -441,6 +514,10 @@
 		}
 		},
 		mounted(){
+      const app = document.getElementById('app')
+      setTimeout(() => {
+        app.style.opacity = 1
+      }, 1000)
 			for(let category of this.categories){
 				console.log(category.rankings)
 				for(let ranking in category.rankings){
@@ -474,11 +551,56 @@
 				},
 				show(category, user, index){
 					this.categories[category].rankings[user][index].hidden = !this.categories[category].rankings[user][index].hidden
+          if (this.categories[category].rankings[user][index].hidden == false)
+            this.focusOne(category, user, index)
 				},
-				changeCategory(category){
-					this.categoryNb = category
-					this.viewers = false
-				}
+        focus(category, user, index){
+          this.categories[category].rankings[user][index].focus = !this.categories[category].rankings[user][index].focus
+        },
+        focusOne(category, user, index){
+          for(let ranking in this.categories[category].rankings){
+            for(let movie of this.categories[category].rankings[ranking]){
+              movie.focus = false
+            }
+          }
+          this.categories[category].rankings[user][index].focus = true
+        },
+        ratingWidth(rating){
+          // rating from 0 to 5 with 0.5 increments
+          // 5 stars width = 146px
+          return rating * 29 + 'px'
+        },
+				changeCategory(categoryTarget){
+          for(let category of this.categories){
+            for(let ranking in category.rankings){
+              for(let movie of category.rankings[ranking]){
+                if (movie.hidden == false){
+                  this.hideAll()
+                  this.preventClick = true
+                  setTimeout(() => {
+                    this.categoryNb = categoryTarget
+                    this.preventClick = false
+                  }, 1500)
+                  this.viewers = false
+                  return
+                }
+              }
+            }
+          }
+          this.categoryNb = categoryTarget
+          this.viewers = false
+				},
+        async hideAll(){
+          this.viewers = false
+          for(let category of this.categories){
+            for(let ranking in category.rankings){
+              for(let movie of category.rankings[ranking]){
+                movie.hidden = true
+                movie.focus = false
+              }
+            }
+          }
+        }
 			},
 	}).mount('#app')
 	</script>
@@ -487,6 +609,9 @@
 		font-family: trinstam;
 		src: url(Trinstam.ttf);
 	}
+  :root {
+    --animate-delay: 0.5s;
+  }
 	#dropdown button {
 		height: 60px;
 		width: 500px;
@@ -545,9 +670,28 @@
 		visibility: hidden;
 	}
 	.number {
-		height: 150px;
-    margin-right: -23px;
+    height: 70px;
+    position: absolute;
+    filter: brightness(1.5);
 	}
+  .number-1 {
+    bottom: -25px;
+    left: -25px;
+    transform: rotate(-15deg);
+    filter: drop-shadow(0px 0px 10px #ffffff) brightness(1.5);
+  }
+  .number-0 {
+    bottom: -25px;
+    left: calc(50% - 36px);
+    /* transform: translateX(-50%); */
+    filter: drop-shadow(0px 0px 10px #f6ff00) brightness(1.5);
+  }
+  .number-2 {
+    bottom: -25px;
+    right: -25px;
+    transform: rotate(15deg);
+    filter: drop-shadow(0px 0px 10px #ff0000) brightness(1.5);
+  }
 	.card-container {
 		user-select: none;
 		display: flex;
@@ -595,11 +739,11 @@
 	}
 	.viewers {
 		position: absolute;
-		top: 0;
+		top: 0px;
 		left: 0;
-		width: 100vw;
-		height: 400px;
-		z-index: 10;
+		width: 100%;
+		height: 100%;
+		z-index: 110;
 	}
 	.choice {
 		position: absolute;
@@ -622,6 +766,232 @@
 		background-color: #000000;
 		opacity: 0.5;
 	}
+  .poster-box {
+    position: relative;
+    /* width: 300px; */
+    height: 200px;
+    /* margin: 0 10px; */
+  }
+  .poster {
+    height: 200px;
+    box-shadow: 5px 7px 12px #0000004c;
+  }
+  .poster-1{
+    position: absolute;
+    margin-right: -30px;
+    -webkit-transform: rotate(-2deg);
+    transform: rotate(-2deg);
+    left: 0px;
+    transition: left 700ms, transform 700ms;
+  }
+  .poster-0{
+    position: absolute;
+    left: 50%;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg) scale(1.15) translateX(-50%) !important;
+    z-index: 100;
+    margin-top: 0px;
+    transition: margin-top 700ms;
+  }
+  .poster-2{
+    position: absolute;
+    -webkit-transform: rotate(2deg);
+    transform: rotate(2deg);
+    transition: right 700ms, transform 700ms;
+    right: 0px;
+  }
+  .unfocused {
+    filter: brightness(0.5);
+  }
+  .focused-1 {
+    filter: brightness(1);
+    /* left: -30px !important;
+    transform: rotate(-10deg); */
+    transform: translateX(-30%) rotate(-2deg);
+    z-index: 50;
+  }
+  .focused-0 {
+    filter: brightness(1);
+    margin-top: -15px !important;
+  }
+  .focused-2 {
+    filter: brightness(1);
+    /* right: -30px !important; */
+    transform: translateX(20%) rotate(2deg);
+    z-index: 50;
+  }
+  #judges {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 360px;
+  }
+  #controls {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .posters-box{
+    display: flex;
+    position: relative;
+    width: 340px;
+    height: 200px;
+  }
+
+  .bounceInFromBottom {
+  visibility: visible !important;
+  -webkit-animation-name: bounceInFromBottom;
+  animation-name: bounceInFromBottom;
+  -webkit-animation-duration: 2.5s;
+  animation-duration: 2.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  transform-origin: bottom center;
+  }
+
+/* Conteneur principal */
+.star-rating {
+  position: absolute;
+  left: 50%;
+  top: -10px;
+  object-fit: cover;
+  object-position: top left;
+  transform: translateX(-50%);
+  width: 146px; /* Définit la portion visible (50% dans cet exemple) */
+  height: 25px; /* Hauteur fixe des étoiles */
+  overflow: hidden; /* Masque tout ce qui dépasse */
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.user-control {
+  display: flex;
+}
+
+.user-control button {
+  margin: 5px;
+}
+
+.user-control p {
+  margin: 5px;
+  font-size: 30px;
+}
+
+.buttonToggled {
+  background-color: #191919;
+  color: white;
+}
+
+.star-focused {
+  filter: drop-shadow(5px 5px 5px #000) brightness(1.8) saturate(200%) ;
+  opacity: 1;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+button {
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #cbcbcb;
+  
+}
+
+#overlay-prevent{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #00000085;
+  z-index: 100;
+}
+
+@-webkit-keyframes bounceInFromBottom {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale3d(0, 0, 0);
+  }
+  20% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1);
+    transform: translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1);
+  }
+  40% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(.9, .9, .9);
+    transform: translate3d(0, 0, 0) scale3d(.9, .9, .9);
+  }
+  60% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1.03, 1.03, 1.03);
+    transform: translate3d(0, 0, 0) scale3d(1.03, 1.03, 1.03);
+  }
+  80% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(.97, .97, .97);
+    transform: translate3d(0, 0, 0) scale3d(.97, .97, .97);
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+@keyframes bounceInFromBottom {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale3d(0, 0, 0);
+  }
+  20% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1);
+    transform: translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1);
+  }
+  40% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(.9, .9, .9);
+    transform: translate3d(0, 0, 0) scale3d(.9, .9, .9);
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+.bounceOutFromBottom {
+  -webkit-animation-name: bounceOutFromBottom;
+  animation-name: bounceOutFromBottom;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  transform-origin: bottom center;
+}
+
+@-webkit-keyframes bounceOutFromBottom {
+  20% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(.9, .9, .9);
+    transform: translate3d(0, 0, 0) scale3d(.9, .9, .9);
+  }
+  40% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1);
+    transform: translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1);
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale3d(0, 0, 0);
+  }
+}
+
+@keyframes bounceOutFromBottom {
+  20% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(.9, .9, .9);
+    transform: translate3d(0, 0, 0) scale3d(.9, .9, .9);
+  }
+  40% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1);
+    transform: translate3d(0, 0, 0) scale3d(1.1, 1.1, 1.1);
+  }
+  100% {
+    -webkit-transform: translate3d(0, 0, 0) scale3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) scale3d(0, 0, 0);
+  }
+}
 </style>
 </body>
 </html>
