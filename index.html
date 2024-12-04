@@ -41,7 +41,7 @@
                   enter-active-class="bounceInFromBottom"
                   leave-active-class="bounceOutFromBottom"
                 >
-                  <div v-if="!user[n].hidden" :key="n">
+                  <div v-if="!user[n].hidden" class="bounceInFromBottom2" :key="n">
                     <img :src="user[n].background" class="poster"/>
                     <img 
                       :src="'green.svg'" 
@@ -511,8 +511,8 @@
         },
         ratingWidth(rating){
           // rating from 0 to 5 with 0.5 increments
-          // 5 stars width = 146px
-          return rating * 29 + 'px'
+          // 5 stars width = 130px
+          return rating * 26 + 'px'
         },
 				changeCategory(categoryTarget){
           for(let category of this.categories){
@@ -792,6 +792,17 @@
   transform-origin: bottom center;
   }
 
+  .bounceInFromBottom2 {
+    visibility: visible !important;
+    -webkit-animation-name: bounceInFromBottom;
+    animation-name: bounceInFromBottom;
+    -webkit-animation-duration: 2.5s;
+    animation-duration: 2.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    transform-origin: bottom center;
+  }
+
 /* Conteneur principal */
 .star-rating {
   position: absolute;
@@ -800,8 +811,8 @@
   object-fit: cover;
   object-position: top left;
   transform: translateX(-50%);
-  width: 146px; /* Définit la portion visible (50% dans cet exemple) */
-  height: 25px; /* Hauteur fixe des étoiles */
+  width: 130px; /* Définit la portion visible (50% dans cet exemple) */
+  height: 22px; /* Hauteur fixe des étoiles */
   overflow: hidden; /* Masque tout ce qui dépasse */
   opacity: 0;
   transition: opacity 1s;
