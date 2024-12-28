@@ -587,15 +587,8 @@
 				}
 			}
       // preload all images
-      for(let category of this.categories){
-        for(let ranking in category.rankings){
-          for(let movie of category.rankings[ranking]){
-            this.preload_image(movie.background)
-          }
-        }
-        for(let viewer of category.viewers){
-          this.preload_image(viewer.background)
-        }
+      for(let viewer of category.viewers){
+        this.preload_image(viewer.background)
       }
 		},
 		methods:{
@@ -668,6 +661,11 @@
           return rating * 26 + 'px'
         },
 				changeCategory(categoryTarget){
+          for(let ranking in this.categories[categoryTarget].rankings){
+            for(let movie of category.rankings[ranking]){
+              this.preload_image(movie.background)
+            }
+          }
           for(let category of this.categories){
             for(let ranking in category.rankings){
               for(let movie of category.rankings[ranking]){
