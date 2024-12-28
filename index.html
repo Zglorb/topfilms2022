@@ -586,6 +586,17 @@
 					}
 				}
 			}
+      // preload all images
+      for(let category of this.categories){
+        for(let ranking in category.rankings){
+          for(let movie of category.rankings[ranking]){
+            this.preload_image(movie.background)
+          }
+        }
+        for(let viewer of category.viewers){
+          this.preload_image(viewer.background)
+        }
+      }
 		},
 		methods:{
 				randomTilt(){
@@ -609,6 +620,10 @@
 						}
 					}
 				},
+        preload_image(im_url) {
+            let img = new Image();
+            img.src = im_url;
+        },
 				show(category, user, index, viewer = false){
           if (viewer){
             this.categories[category].viewers[index].hidden = !this.categories[category].viewers[index].hidden
