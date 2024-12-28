@@ -24,9 +24,24 @@
     <!-- <div id="bottom">	 -->
       <div style="position: relative;">
         <div v-if="viewers" class="viewers animate__animated animate__fadeIn" >
-          <div class="choice animate__animated animate__tada">
-            <img height="240px" :src="categories[categoryNb].viewers.background">
-            <div style="color: white; font-size: 32px;">{{categories[categoryNb].viewers.title}}</div>
+          <div class="posters-box">
+            <div v-for="(movie, n) in categories[categoryNb].viewers" :style="n != 0 ? 'z-index: 1;' : ''" :class="`poster-box poster-${n} ${categories[categoryNb].viewers[n].focus ? `focused-${n}` : 'unfocused'}`" :key="n">
+              <transition
+              name="bounce"
+              enter-active-class="bounceInFromBottom"
+              leave-active-class="bounceOutFromBottom"
+            >
+              <div v-if="!categories[categoryNb].viewers[n].hidden" class="bounceInFromBottom2" :key="n">
+                <img :src="categories[categoryNb].viewers[n].background" class="poster"/>
+                <img 
+                  :src="`${n + 1}.png`"
+                  :class="`number number-${n} animate__animated ${
+                    categories[categoryNb].viewers[n].hidden ? 'animate__zoomOut' : 'animate__zoomIn animate__delay-1s'
+                  }`"
+                />
+              </div>
+            </transition>
+            </div>
           </div>
           <div class="overlay-bg">	
           </div>
@@ -45,7 +60,7 @@
                     <img :src="user[n].background" class="poster"/>
                     <img 
                       :src="'green.svg'" 
-                      :style="`width: ${ratingWidth(5)};`"
+                      :style="`width: ${ratingWidth(user[n].rating)};`"
                       :class="`star-rating ${user[n].focus ? 'star-focused' : ''}`" 
                       alt="green"
                     />
@@ -86,9 +101,19 @@
         </div>
       </div>
       <div class="center" style="margin-top: 50px;">
-        <button @click="viewers = !viewers">
-          VOTE DES VIEWERS
-        </button>
+        <div v-if="categories[categoryNb].viewers">
+          <h2>Viewers</h2>
+          <button @click="viewers = !viewers">
+            {{ viewers ? 'Cacher' : 'Afficher' }}
+          </button>
+          <div style="display: flex; flex-direction: column-reverse;">
+            <div v-for="(movie, index) in categories[categoryNb].viewers" class="user-control">
+              <p>{{ index + 1 }}</p>
+              <button :class="`${movie.hidden ? '' : 'buttonToggled'}`" @click="show(categoryNb, key, index, true)"> AFFICHER </button>
+              <button :class="`${movie.focus ? 'buttonToggled' : ''}`" @click="focusOne(categoryNb, key, index, true)"> FOCUS </button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="center" style="margin-top: 50px;">
         <button @click="hideAll">
@@ -115,178 +140,233 @@
 			categories: [
   {
     "title": "Top 3 film 2024 ",
-	"viewers": {
-		"title": "Oppenheimer",
-		"background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg"
-	},
+    "viewers": [
+      {
+        title: "Furiosa: A Mad Max Saga",
+        background: "posters/p_furiosa.jpg",
+        "hidden": true,
+        "focus": false
+      },
+      {
+        title: "Dune 2",
+        background: "posters/m_dune.jpg",
+        "hidden": true,
+        "focus": false
+      },
+      {
+        title: "The Substance",
+        background: "posters/substance.jpg",
+        "hidden": true,
+        "focus": false
+      }
+    ],
     "rankings": {
-      "Jean": [
+      "Terracid": [
         {
-          "title": "Godzilla Minus One",
-          "background": "https://image.tmdb.org/t/p/w500/tBzOqSc51CiUeOlxW2unvYVBU8v.jpg",
+          "title": "Furiosa: A Mad Max Saga",
+          "background": "posters/p_furiosa.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4.5
         },
         {
-          "title": "Mars Express",
-          "background": "https://image.tmdb.org/t/p/w500/7n9OhLFIs9de4DYS0aQxNiHgvqh.jpg",
+          "title": "Flow",
+          "background": "posters/flow.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4
         },
         {
-          "title": "Shin Kamen Rider",
-          "background": "https://image.tmdb.org/t/p/w500/9dTO2RygcDT0cQkawABw4QkDegN.jpg",
+          "title": "Alien: Romulus",
+          "background": "posters/alien.jpg",
           "hidden": true,
-          "focus": false
-        }
-      ],
-      "Grimkujow": [
-        {
-          "title": "Killers Of The Flower Moon",
-          "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
-          "hidden": true,
-          "focus": false
-        },
-        {
-          "title": "Spider Verse",
-          "background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg",
-          "hidden": true,
-          "focus": false
-        },
-        {
-          "title": "Le Règne Animal",
-          "background": "https://image.tmdb.org/t/p/w500/1gO4SWCdMW0ptIRLQ455Ia5emC.jpg",
-          "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4
         }
       ],
       "Potatoz": [
         {
-          "title": "Killers of The Flower Moon",
-          "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
+          "title": "Furiosa",
+          "background": "posters/p_furiosa.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 5
         },
         {
-          "title": "Anatomie d'une Chute",
-          "background": "https://image.tmdb.org/t/p/w500/vwpB79T0KGxqZSx0wormGC58OZB.jpg",
+          "title": "Emilia Pérez",
+          "background": "posters/p_emilia_perez.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4
         },
         {
-          "title": "Interdit aux chiens et aux Italiens",
-          "background": "https://image.tmdb.org/t/p/w500/qSDA01KsLvs6nza10j8g1penILQ.jpg",
+          "title": "Les Graines du figuier sauvage",
+          "background": "posters/p_grapesofwrath.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4
         }
       ],
-      "DIEGO": [
+      "Grimkujow": [
         {
-          "title": "Across The Spider-Verse",
-          "background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg",
+          "title": "La zone d'intérêt",
+          "background": "posters/zoneofinterest.jpeg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4.5
         },
         {
-          "title": "Monster",
-          "background": "https://image.tmdb.org/t/p/w500/k8mazEQ935PbqbqRP7eBGssN3g9.jpg",
+          "title": "Furiosa",
+          "background": "posters/p_furiosa.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4.5
         },
         {
-          "title": "Killers of the Flower Moon",
-          "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
+          "title": "L'histoire de Souleymane",
+          "background": "posters/souleyman.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4
+        }
+      ],
+      "Jean": [
+        {
+          "title": "Furiosa",
+          "background": "posters/p_furiosa.jpg",
+          "hidden": true,
+          "focus": false,
+          "rating": 4.5
+        },
+        {
+          "title": "Twilight of the Warriors: Walled In",
+          "background": "posters/twilight.jpg",
+          "hidden": true,
+          "focus": false,
+          "rating": 4
+        },
+        {
+          "title": "Emilia Pérez",
+          "background": "posters/p_emilia_perez.jpg",
+          "hidden": true,
+          "focus": false,
+          "rating": 4
         }
       ]
     }
   },
   {
     "title": "Flop 3 film 2024 ",
-	"viewers": {
-		"title": "Barbie",
-		"background": "https://image.tmdb.org/t/p/w500/oQjqjIQ46VVa8Q80y3FfLrPXoK3.jpg"
-	},
+    "viewers": [{
+      title: "Trap",
+      background: "posters/trap.jpg",
+      "hidden": true,
+      "focus": false
+    },
+    {
+      title: "Dune 2",
+      background: "posters/m_dune.jpg",
+      "hidden": true,
+      "focus": false
+    },
+    {
+      title: "Joker: Folie à deux",
+      background: "posters/joker.jpg",
+      "hidden": true,
+      "focus": false
+    }
+    ],
     "rankings": {
-      "Jean": [
+      "Terracid": [
         {
-          "title": "The Flash",
-          "background": "https://image.tmdb.org/t/p/w500/azio74W2qw7bNg7ePqzkWywwK1n.jpg",
+          "title": "Le Deuxième acte",
+          "background": "posters/deuxiemeacte.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 1.5
         },
         {
-          "title": "Scream 6",
-          "background": "https://image.tmdb.org/t/p/w500/yQw8BtQedzm5aUo9zQCUMxQBtIJ.jpg",
+          "title": "Rebel Ridge",
+          "background": "posters/rebelRidge.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 2
         },
         {
-          "title": "Cocaine Bear",
-          "background": "https://image.tmdb.org/t/p/w500/crl0mZX2wPzuB7YYslcU8UIv1Ml.jpg",
+          "title": "MaXXXine",
+          "background": "posters/maxxxine.jpg",
           "hidden": true,
-          "focus": false
-        }
-      ],
-      "Grimkujow": [
-        {
-          "title": "Beau Is Afraid",
-          "background": "https://image.tmdb.org/t/p/w500/uS77R2vuiZpKZLL0VEjPF8ArWfq.jpg",
-          "hidden": true,
-          "focus": false
-        },
-        {
-          "title": "Asteroid City",
-          "background": "https://image.tmdb.org/t/p/w500/76Fx5kjWnoxtHiKifs4wh52f8og.jpg",
-          "hidden": true,
-          "focus": false
-        },
-        {
-          "title": "Oppenheimer",
-          "background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg",
-          "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 2
         }
       ],
       "Potatoz": [
         {
-          "title": "Barbie",
-          "background": "https://image.tmdb.org/t/p/w500/oQjqjIQ46VVa8Q80y3FfLrPXoK3.jpg",
+          "title": "Le Comte de Monte-Cristo",
+          "background": "posters/p_montecristo.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 2.5
         },
         {
-          "title": "Super Mario",
-          "background": "https://image.tmdb.org/t/p/w500/ahMxyHMSJXingQr4yJBMzMU9k42.jpg",
+          "title": "Horizon: An American Saga",
+          "background": "posters/p_horizon.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 2
         },
         {
-          "title": "Babylon",
-          "background": "https://image.tmdb.org/t/p/w500/lO0D9TFbWtowoDfDqkPNZyKIcIq.jpg",
+          "title": "Here",
+          "background": "posters/p_here.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 3
         }
       ],
-      "DIEGO": [
+      "Grimkujow": [
         {
-          "title": "Oppenheimer",
-          "background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg",
+          "title": "Dune 2",
+          "background": "posters/m_dune.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 3
         },
         {
-          "title": "Mario",
-          "background": "https://image.tmdb.org/t/p/w500/ahMxyHMSJXingQr4yJBMzMU9k42.jpg",
+          "title": "Smile 2",
+          "background": "posters/smile2.webp",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 2
         },
         {
-          "title": "Talk to me",
-          "background": "https://image.tmdb.org/t/p/w500/yoZmZOIk35ZuH0WJoakB81ypHUH.jpg",
+          "title": "Vice Versa 2",
+          "background": "posters/viceversa.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 2.5
+        }
+      ],
+      "Jean": [
+        {
+          "title": "In a Violent Nature",
+          "background": "posters/inaviolentnature.jpg",
+          "hidden": true,
+          "focus": false,
+          "rating": 2.5
+        },
+        {
+          "title": "Dune 2",
+          "background": "posters/m_dune.jpg",
+          "hidden": true,
+          "focus": false,
+          "rating": 3
+        },
+        {
+          "title": "Serpent's Path",
+          "background": "posters/serpents.jpg",
+          "hidden": true,
+          "focus": false,
+          "rating": 3
         }
       ]
     }
@@ -294,36 +374,40 @@
   {
     "title": " Top 1 Série 2024 ",
     "rankings": {
-      "Jean": [
+      "Terracid": [
         {
-          "title": "Les Sopranos",
-          "background": "https://image.tmdb.org/t/p/w500/sFbtfqsmrTJS0WbxPGxyInNZoMo.jpg",
+          "title": "The Penguin",
+          "background": "posters/penguin.jpg",
           "hidden": true,
-          "focus": false
-        }
-      ],
-      "Grimkujow": [
-        {
-          "title": "Les Sopranos",
-          "background": "https://image.tmdb.org/t/p/w500/sFbtfqsmrTJS0WbxPGxyInNZoMo.jpg",
-          "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4.5
         }
       ],
       "Potatoz": [
         {
-          "title": "The Sopranos",
-          "background": "https://image.tmdb.org/t/p/w500/9wN5d2HGtyU1gckzQzl6nl8oipw.jpg",
+          "title": "O.J : Made in America",
+          "background": "posters/p_oj.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 5
         }
       ],
-      "DIEGO": [
+      "Grimkujow": [
         {
-          "title": "The Bear",
-          "background": "https://image.tmdb.org/t/p/w500/g6MsFUSFwm1SvQp2hswxgRWpptR.jpg",
+          "title": "DJ Mehdi : Made in France",
+          "background": "posters/djmehdi.png",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 5
+        }
+      ],
+      "Jean": [
+        {
+          "title": "DJ Mehdi Made in France",
+          "background": "posters/djmehdi.png",
+          "hidden": true,
+          "focus": false,
+          "rating": 5
         }
       ]
     }
@@ -331,125 +415,157 @@
   {
     "title": " Top 3 film hors 2024 ",
     "rankings": {
-      "Jean": [
+      "Terracid": [
         {
-          "title": "High and Low",
-          "background": "https://image.tmdb.org/t/p/w500/cmbTqPuV7WMPCLWFeybpZwf4up2.jpg",
+          "title": "Festen",
+          "background": "posters/celebration.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4.5
         },
         {
-          "title": "Hana-bi",
-          "background": "https://image.tmdb.org/t/p/w500/oWI4NovPYyAObZcKMUHCuaU8mhg.jpg",
+          "title": "Mars Express",
+          "background": "posters/mars_express.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4.5
         },
         {
-          "title": "His motorbike Her island",
-          "background": "https://image.tmdb.org/t/p/w500/2yUN50OHeJLaMcu5nO1D2nX5frr.jpg",
+          "title": "Moonlight",
+          "background": "posters/moonlight.jpg",
           "hidden": true,
-          "focus": false
-        }
-      ],
-      "Grimkujow": [
-        {
-          "title": "Persona",
-          "background": "https://image.tmdb.org/t/p/w500/5DD1LJWLzLS8UYwDZKRdSwVaRr5.jpg",
-          "hidden": true,
-          "focus": false
-        },
-        {
-          "title": "Le Bonheur",
-          "background": "https://image.tmdb.org/t/p/w500/3Rhe6oVPGCmghZ0M0iqiJkNJu7d.jpg",
-          "hidden": true,
-          "focus": false
-        },
-        {
-          "title": "Dancer in the dark",
-          "background": "https://image.tmdb.org/t/p/w500/sBh45R8jwJRiN72tnjV49Amhu09.jpg",
-          "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4
         }
       ],
       "Potatoz": [
         {
-          "title": "Il était une fois dans l'Ouest",
-          "background": "https://image.tmdb.org/t/p/w500/xjXKy5b2M3fDelAQItIswcDNvwm.jpg",
+          "title": "JFK",
+          "background": "posters/p_jfk.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 5
         },
         {
-          "title": "Autumn Sonata",
-          "background": "https://image.tmdb.org/t/p/w500/3WwOPJHhBLzh6iGWcR152kQY4T6.jpg",
+          "title": "Les Raisins de la colère",
+          "background": "posters/p_grapesofwrath.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 5
         },
         {
-          "title": "The Insider",
-          "background": "https://image.tmdb.org/t/p/w500/7uJZ3OLNLMznzUcByqF5yELC6CU.jpg",
+          "title": "La Règle du Jeu",
+          "background": "posters/p_theRulesOfTheGame.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4.5
         }
       ],
-      "DIEGO": [
+      "Grimkujow": [
         {
-          "title": "Fire Walk With Me",
-          "background": "https://image.tmdb.org/t/p/w500/2lV7va18qO6KYyLXSxanf6a38J6.jpg",
+          "title": "Napoléon",
+          "background": "posters/Napoleon.webp",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4.5
         },
         {
-          "title": "Apocalypse Now",
-          "background": "https://image.tmdb.org/t/p/w500/scaiAT7I2KZ2GAeMvoU6Ro1515J.jpg",
+          "title": "King Kong",
+          "background": "posters/kingkong.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 5
         },
         {
-          "title": "Mademoiselle",
-          "background": "https://image.tmdb.org/t/p/w500/zfalxqrBYa60wp1RkSclOMcLtZT.jpg",
+          "title": "Jean de Florette",
+          "background": "posters/jeandeflorette.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4.5
+        }
+      ],
+      "Jean": [
+        {
+          "title": "A Scene at the sea",
+          "background": "posters/asceneatthesea.jpg",
+          "hidden": true,
+          "focus": false,
+          "rating": 5
+        },
+        {
+          "title": "Le Parrain Partie 2",
+          "background": "posters/parrain2.png",
+          "hidden": true,
+          "focus": false,
+          "rating": 5
+        },
+        {
+          "title": "A Better Tomorrow",
+          "background": "posters/a_better_tomorow.jpg",
+          "hidden": true,
+          "focus": false,
+          "rating": 4.5
         }
       ]
     }
   },
   {
     "title": "Coup de cœur 2024 ",
-	"viewers": {
-		"title": "Spiderman : Across the Spider-Verse",
-		"background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg"
-	},
+    "viewers":[
+      {
+        "title": "The substance",
+        "background": "posters/substance.jpg",
+        "hidden": true,
+        "focus": false
+      },
+      {
+        "title": "Furiosa: A Mad Max Saga",
+        "background": "posters/p_furiosa.jpg",
+        "hidden": true,
+        "focus": false
+      },
+      {
+        "title": "Le Robot sauvage",
+        "background": "posters/wildrobot.jpg",
+        "hidden": true,
+        "focus": false
+      }
+    ],
     "rankings": {
-      "Jean": [
+      "Terracid": [
         {
-          "title": "Gunhed",
-          "background": "https://image.tmdb.org/t/p/w500/ySNPwAzfLwrUz2Yar3HCWK3huLx.jpg",
+          "title": "Emilia Pérez",
+          "background": "posters/p_emilia_perez.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 3.5
+        }
+      ],
+"Potatoz": [
+        {
+          "title": "Hundreds of Beavers",
+          "background": "posters/p_beavers.jpg",
+          "hidden": true,
+          "focus": false,
+          "rating": 5
         }
       ],
       "Grimkujow": [
         {
-          "title": "Chien de la casse",
-          "background": "https://image.tmdb.org/t/p/w500/pBti2tzvpbHT6ueXJaFjTEnL2wg.jpg",
+          "title": "The apprentice",
+          "background": "posters/theapprentice.jpg",
           "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4
         }
       ],
-      "Potatoz": [
+      "Jean": [
         {
-          "title": "Chien de la casse",
-          "background": "https://image.tmdb.org/t/p/w500/pBti2tzvpbHT6ueXJaFjTEnL2wg.jpg",
+          "title": "Knock-Off",
+          "background": "posters/knockoff.jpg",
           "hidden": true,
-          "focus": false
-        }
-      ],
-      "DIEGO": [
-        {
-          "title": "Le règne animal",
-          "background": "https://image.tmdb.org/t/p/w500/1gO4SWCdMW0ptIRLQ455Ia5emC.jpg",
-          "hidden": true,
-          "focus": false
+          "focus": false,
+          "rating": 4
         }
       ]
     }
@@ -493,15 +609,37 @@
 						}
 					}
 				},
-				show(category, user, index){
+				show(category, user, index, viewer = false){
+          if (viewer){
+            this.categories[category].viewers[index].hidden = !this.categories[category].viewers[index].hidden
+            if (this.categories[category].viewers[index].hidden == false)
+              this.focusOne(category, user, index, true)
+          } else {
 					this.categories[category].rankings[user][index].hidden = !this.categories[category].rankings[user][index].hidden
           if (this.categories[category].rankings[user][index].hidden == false)
             this.focusOne(category, user, index)
+          }
 				},
-        focus(category, user, index){
+        focus(category, user, index, viewer = false){
+          if (viewer){
+            this.categories[category].viewers[index].focus = !this.categories[category].viewers[index].focus
+          } else {
           this.categories[category].rankings[user][index].focus = !this.categories[category].rankings[user][index].focus
+          }
         },
-        focusOne(category, user, index){
+        focusOne(category, user, index, viewer = false){
+          if (viewer){
+            for(let ranking in this.categories[category].rankings){
+              for(let movie of this.categories[category].rankings[ranking]){
+                movie.focus = false
+              }
+            }
+            for(let movie of this.categories[category].viewers){
+              movie.focus = false
+            }
+            this.categories[category].viewers[index].focus = true
+            return
+          }
           for(let ranking in this.categories[category].rankings){
             for(let movie of this.categories[category].rankings[ranking]){
               movie.focus = false
@@ -683,6 +821,9 @@
 	}
 	.viewers {
 		position: absolute;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 		top: 0px;
 		left: 0;
 		width: 100%;
@@ -690,9 +831,6 @@
 		z-index: 110;
 	}
 	.choice {
-		position: absolute;
-		top: 0;
-		left: 0;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -708,7 +846,7 @@
 		top: 0;
 		left: 0;
 		background-color: #000000;
-		opacity: 0.5;
+		opacity: 0.8;
 	}
   .poster-box {
     position: relative;

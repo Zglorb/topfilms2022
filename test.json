@@ -1,0 +1,343 @@
+[
+    {
+      "title": "Top 3 film 2024 ",
+      "viewers": {
+          "title": "Oppenheimer",
+          "background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg"
+      },
+      "rankings": {
+        "Jean": [
+          {
+            "title": "Godzilla Minus One",
+            "background": "https://image.tmdb.org/t/p/w500/tBzOqSc51CiUeOlxW2unvYVBU8v.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Mars Express",
+            "background": "https://image.tmdb.org/t/p/w500/7n9OhLFIs9de4DYS0aQxNiHgvqh.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Shin Kamen Rider",
+            "background": "https://image.tmdb.org/t/p/w500/9dTO2RygcDT0cQkawABw4QkDegN.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Grimkujow": [
+          {
+            "title": "Killers Of The Flower Moon",
+            "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Spider Verse",
+            "background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Le Règne Animal",
+            "background": "https://image.tmdb.org/t/p/w500/1gO4SWCdMW0ptIRLQ455Ia5emC.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Potatoz": [
+          {
+            "title": "Killers of The Flower Moon",
+            "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Anatomie d'une Chute",
+            "background": "https://image.tmdb.org/t/p/w500/vwpB79T0KGxqZSx0wormGC58OZB.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Interdit aux chiens et aux Italiens",
+            "background": "https://image.tmdb.org/t/p/w500/qSDA01KsLvs6nza10j8g1penILQ.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "DIEGO": [
+          {
+            "title": "Across The Spider-Verse",
+            "background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Monster",
+            "background": "https://image.tmdb.org/t/p/w500/k8mazEQ935PbqbqRP7eBGssN3g9.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Killers of the Flower Moon",
+            "background": "https://image.tmdb.org/t/p/w500/t51ReMWxWcAOqKrGKw29OK2WhNz.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ]
+      }
+    },
+    {
+      "title": "Flop 3 film 2024 ",
+      "viewers": {
+          "title": "Barbie",
+          "background": "https://image.tmdb.org/t/p/w500/oQjqjIQ46VVa8Q80y3FfLrPXoK3.jpg"
+      },
+      "rankings": {
+        "Jean": [
+          {
+            "title": "The Flash",
+            "background": "https://image.tmdb.org/t/p/w500/azio74W2qw7bNg7ePqzkWywwK1n.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Scream 6",
+            "background": "https://image.tmdb.org/t/p/w500/yQw8BtQedzm5aUo9zQCUMxQBtIJ.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Cocaine Bear",
+            "background": "https://image.tmdb.org/t/p/w500/crl0mZX2wPzuB7YYslcU8UIv1Ml.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Grimkujow": [
+          {
+            "title": "Beau Is Afraid",
+            "background": "https://image.tmdb.org/t/p/w500/uS77R2vuiZpKZLL0VEjPF8ArWfq.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Asteroid City",
+            "background": "https://image.tmdb.org/t/p/w500/76Fx5kjWnoxtHiKifs4wh52f8og.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Oppenheimer",
+            "background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Potatoz": [
+          {
+            "title": "Barbie",
+            "background": "https://image.tmdb.org/t/p/w500/oQjqjIQ46VVa8Q80y3FfLrPXoK3.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Super Mario",
+            "background": "https://image.tmdb.org/t/p/w500/ahMxyHMSJXingQr4yJBMzMU9k42.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Babylon",
+            "background": "https://image.tmdb.org/t/p/w500/lO0D9TFbWtowoDfDqkPNZyKIcIq.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "DIEGO": [
+          {
+            "title": "Oppenheimer",
+            "background": "https://image.tmdb.org/t/p/w500/boAUuJBeID7VNp4L7LNMQs8mfQS.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Mario",
+            "background": "https://image.tmdb.org/t/p/w500/ahMxyHMSJXingQr4yJBMzMU9k42.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Talk to me",
+            "background": "https://image.tmdb.org/t/p/w500/yoZmZOIk35ZuH0WJoakB81ypHUH.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ]
+      }
+    },
+    {
+      "title": " Top 1 Série 2024 ",
+      "rankings": {
+        "Jean": [
+          {
+            "title": "Les Sopranos",
+            "background": "https://image.tmdb.org/t/p/w500/sFbtfqsmrTJS0WbxPGxyInNZoMo.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Grimkujow": [
+          {
+            "title": "Les Sopranos",
+            "background": "https://image.tmdb.org/t/p/w500/sFbtfqsmrTJS0WbxPGxyInNZoMo.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Potatoz": [
+          {
+            "title": "The Sopranos",
+            "background": "https://image.tmdb.org/t/p/w500/9wN5d2HGtyU1gckzQzl6nl8oipw.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "DIEGO": [
+          {
+            "title": "The Bear",
+            "background": "https://image.tmdb.org/t/p/w500/g6MsFUSFwm1SvQp2hswxgRWpptR.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ]
+      }
+    },
+    {
+      "title": " Top 3 film hors 2024 ",
+      "rankings": {
+        "Jean": [
+          {
+            "title": "High and Low",
+            "background": "https://image.tmdb.org/t/p/w500/cmbTqPuV7WMPCLWFeybpZwf4up2.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Hana-bi",
+            "background": "https://image.tmdb.org/t/p/w500/oWI4NovPYyAObZcKMUHCuaU8mhg.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "His motorbike Her island",
+            "background": "https://image.tmdb.org/t/p/w500/2yUN50OHeJLaMcu5nO1D2nX5frr.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Grimkujow": [
+          {
+            "title": "Persona",
+            "background": "https://image.tmdb.org/t/p/w500/5DD1LJWLzLS8UYwDZKRdSwVaRr5.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Le Bonheur",
+            "background": "https://image.tmdb.org/t/p/w500/3Rhe6oVPGCmghZ0M0iqiJkNJu7d.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Dancer in the dark",
+            "background": "https://image.tmdb.org/t/p/w500/sBh45R8jwJRiN72tnjV49Amhu09.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Potatoz": [
+          {
+            "title": "Il était une fois dans l'Ouest",
+            "background": "https://image.tmdb.org/t/p/w500/xjXKy5b2M3fDelAQItIswcDNvwm.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Autumn Sonata",
+            "background": "https://image.tmdb.org/t/p/w500/3WwOPJHhBLzh6iGWcR152kQY4T6.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "The Insider",
+            "background": "https://image.tmdb.org/t/p/w500/7uJZ3OLNLMznzUcByqF5yELC6CU.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "DIEGO": [
+          {
+            "title": "Fire Walk With Me",
+            "background": "https://image.tmdb.org/t/p/w500/2lV7va18qO6KYyLXSxanf6a38J6.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Apocalypse Now",
+            "background": "https://image.tmdb.org/t/p/w500/scaiAT7I2KZ2GAeMvoU6Ro1515J.jpg",
+            "hidden": true,
+            "focus": false
+          },
+          {
+            "title": "Mademoiselle",
+            "background": "https://image.tmdb.org/t/p/w500/zfalxqrBYa60wp1RkSclOMcLtZT.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ]
+      }
+    },
+    {
+      "title": "Coup de cœur 2024 ",
+      "viewers": {
+          "title": "Spiderman : Across the Spider-Verse",
+          "background": "https://image.tmdb.org/t/p/w500/hvfwCeSTgsExmz9l31dKkfR83DH.jpg"
+      },
+      "rankings": {
+        "Jean": [
+          {
+            "title": "Gunhed",
+            "background": "https://image.tmdb.org/t/p/w500/ySNPwAzfLwrUz2Yar3HCWK3huLx.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Grimkujow": [
+          {
+            "title": "Chien de la casse",
+            "background": "https://image.tmdb.org/t/p/w500/pBti2tzvpbHT6ueXJaFjTEnL2wg.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "Potatoz": [
+          {
+            "title": "Chien de la casse",
+            "background": "https://image.tmdb.org/t/p/w500/pBti2tzvpbHT6ueXJaFjTEnL2wg.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ],
+        "DIEGO": [
+          {
+            "title": "Le règne animal",
+            "background": "https://image.tmdb.org/t/p/w500/1gO4SWCdMW0ptIRLQ455Ia5emC.jpg",
+            "hidden": true,
+            "focus": false
+          }
+        ]
+      }
+    }
+  ]
